@@ -19,7 +19,7 @@ export function SectionWrapper({
     <section
       id={id}
       className={cn(
-        "px-6 md:px-12 lg:px-20 py-20 md:py-28",
+        "px-6 md:px-12 lg:px-20 py-12 md:py-16",
         dark
           ? "bg-[var(--color-navy)] text-white"
           : "bg-[var(--color-bg)]",

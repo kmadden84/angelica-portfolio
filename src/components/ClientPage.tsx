@@ -6,6 +6,7 @@ import { Hero } from "@/components/sections/Hero";
 import { About } from "@/components/sections/About";
 import { Projects } from "@/components/sections/Projects";
 import { Strengths } from "@/components/sections/Strengths";
+import { Experience } from "@/components/sections/Experience";
 import { Education } from "@/components/sections/Education";
 import { Leadership } from "@/components/sections/Leadership";
 import { Tools } from "@/components/sections/Tools";
@@ -27,6 +28,7 @@ export function ClientPage({ data: initialData }: { data: PageData }) {
     projects,
     strengths,
     tools,
+    experience,
     education,
     leadership,
     contact,
@@ -86,6 +88,9 @@ export function ClientPage({ data: initialData }: { data: PageData }) {
   const toolFields = tools.map(
     (t) => t.fields as unknown as import("@/types/contentful").SkillCategory
   );
+  const expFields = experience.map(
+    (e) => e.fields as unknown as import("@/types/contentful").Experience
+  );
   const eduFields = education.map(
     (e) => e.fields as unknown as import("@/types/contentful").Education
   );
@@ -110,6 +115,7 @@ export function ClientPage({ data: initialData }: { data: PageData }) {
         <About data={aboutFields} />
         <Projects data={projectFields} />
         <Strengths data={strengthFields} />
+        <Experience data={expFields} />
         <Education data={eduFields} />
         <Leadership data={leaderFields} />
         <Tools data={toolFields} />

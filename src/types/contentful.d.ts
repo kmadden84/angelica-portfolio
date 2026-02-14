@@ -73,6 +73,19 @@ export interface SkillCategorySkeleton extends EntrySkeletonType {
   };
 }
 
+export interface ExperienceSkeleton extends EntrySkeletonType {
+  contentTypeId: "experience";
+  fields: {
+    jobTitle: string;
+    company: string;
+    companyLogo?: Asset;
+    dateRange: string;
+    description?: Document;
+    tags?: string[];
+    sortOrder: number;
+  };
+}
+
 export interface EducationSkeleton extends EntrySkeletonType {
   contentTypeId: "education";
   fields: {
@@ -125,6 +138,7 @@ export type HeroSection = HeroSectionSkeleton["fields"];
 export type AboutSection = AboutSectionSkeleton["fields"];
 export type Project = ProjectSkeleton["fields"];
 export type SkillCategory = SkillCategorySkeleton["fields"];
+export type Experience = ExperienceSkeleton["fields"];
 export type Education = EducationSkeleton["fields"];
 export type LeadershipActivity = LeadershipActivitySkeleton["fields"];
 export type ContactSection = ContactSectionSkeleton["fields"];

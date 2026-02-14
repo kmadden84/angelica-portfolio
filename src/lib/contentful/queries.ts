@@ -5,6 +5,7 @@ import type {
   AboutSectionSkeleton,
   ProjectSkeleton,
   SkillCategorySkeleton,
+  ExperienceSkeleton,
   EducationSkeleton,
   LeadershipActivitySkeleton,
   ContactSectionSkeleton,
@@ -82,6 +83,10 @@ export async function getSkillCategories(section?: "strengths" | "tools") {
   }
 }
 
+export async function getExperience() {
+  return getCollection<ExperienceSkeleton>("experience");
+}
+
 export async function getEducation() {
   return getCollection<EducationSkeleton>("education");
 }
@@ -106,6 +111,7 @@ export async function getAllPageData() {
     projects,
     strengths,
     tools,
+    experience,
     education,
     leadership,
     contact,
@@ -117,6 +123,7 @@ export async function getAllPageData() {
     getProjects(),
     getSkillCategories("strengths"),
     getSkillCategories("tools"),
+    getExperience(),
     getEducation(),
     getLeadershipActivities(),
     getContactSection(),
@@ -130,6 +137,7 @@ export async function getAllPageData() {
     projects,
     strengths,
     tools,
+    experience,
     education,
     leadership,
     contact,

@@ -3,6 +3,7 @@ export const SECTION_IDS = {
   about: "about",
   projects: "projects",
   strengths: "strengths",
+  experience: "experience",
   education: "education",
   leadership: "leadership",
   tools: "tools",
