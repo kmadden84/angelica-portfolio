@@ -21,6 +21,13 @@ import {
   Heart,
   Star,
   Zap,
+  Briefcase,
+  Award,
+  Shield,
+  Eye,
+  Mic,
+  Compass,
+  Rocket,
   type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
@@ -46,6 +53,13 @@ const iconMap: Record<string, LucideIcon> = {
   Heart,
   Star,
   Zap,
+  Briefcase,
+  Award,
+  Shield,
+  Eye,
+  Mic,
+  Compass,
+  Rocket,
 };
 
 interface SkillIconProps {

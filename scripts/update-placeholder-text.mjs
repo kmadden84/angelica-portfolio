@@ -132,58 +132,62 @@ async function main() {
 
   // --- project ---
   const projectEntries = await env.getEntries({ content_type: "project" });
-  if (projectEntries.items.length > 0) {
-    const proj = projectEntries.items[0];
-    proj.fields.title = { "en-US": "Campus Brand Revitalization Campaign" };
-    proj.fields.slug = { "en-US": "campus-brand-revitalization" };
-    proj.fields.context = {
-      "en-US":
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
-    };
-    proj.fields.objective = {
-      "en-US":
-        "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Target a 45% increase in brand awareness metrics within one academic semester.",
-    };
-    proj.fields.role = { "en-US": "Lead Brand Strategist & Campaign Manager" };
-    proj.fields.actions = {
-      "en-US": richTextWithBullets(
-        "Executed a comprehensive multi-channel strategy:",
-        [
-          "Conducted stakeholder interviews and competitive audit across 12 peer institutions to identify positioning gaps",
-          "Developed integrated content calendar spanning Instagram, LinkedIn, and TikTok with 60+ planned touchpoints",
-          "Designed A/B tested ad creatives using Canva and Figma, iterating based on weekly performance data",
-          "Coordinated influencer partnerships with 8 campus micro-influencers to amplify organic reach",
-          "Built automated reporting dashboard in Google Data Studio tracking KPIs across all channels",
+  try {
+    if (projectEntries.items.length > 0) {
+      const proj = projectEntries.items[0];
+      proj.fields.title = { "en-US": "Campus Brand Revitalization Campaign" };
+      proj.fields.slug = { "en-US": "campus-brand-revitalization" };
+      proj.fields.context = {
+        "en-US":
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
+      };
+      proj.fields.objective = {
+        "en-US":
+          "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Target a 45% increase in brand awareness metrics within one academic semester.",
+      };
+      proj.fields.role = { "en-US": "Lead Brand Strategist & Campaign Manager" };
+      proj.fields.actions = {
+        "en-US": richTextWithBullets(
+          "Executed a comprehensive multi-channel strategy:",
+          [
+            "Conducted stakeholder interviews and competitive audit across 12 peer institutions to identify positioning gaps",
+            "Developed integrated content calendar spanning Instagram, LinkedIn, and TikTok with 60+ planned touchpoints",
+            "Designed A/B tested ad creatives using Canva and Figma, iterating based on weekly performance data",
+            "Coordinated influencer partnerships with 8 campus micro-influencers to amplify organic reach",
+            "Built automated reporting dashboard in Google Data Studio tracking KPIs across all channels",
+          ],
+          null
+        ),
+      };
+      proj.fields.results = {
+        "en-US": richTextWithBullets(
+          "Campaign delivered measurable impact across all target metrics:",
+          [
+            "52% increase in social media engagement rate (vs. 40% target)",
+            "31% growth in follower count across platforms within 90 days",
+            "3.2x increase in website referral traffic from social channels",
+            "Brand sentiment score improved from 6.2 to 8.7 (out of 10) in post-campaign survey",
+            "Campaign framework adopted by 3 additional student organizations",
+          ],
+          null
+        ),
+      };
+      proj.fields.tags = {
+        "en-US": [
+          "Brand Strategy",
+          "Social Media",
+          "Analytics",
+          "Content Marketing",
         ],
-        null
-      ),
-    };
-    proj.fields.results = {
-      "en-US": richTextWithBullets(
-        "Campaign delivered measurable impact across all target metrics:",
-        [
-          "52% increase in social media engagement rate (vs. 40% target)",
-          "31% growth in follower count across platforms within 90 days",
-          "3.2x increase in website referral traffic from social channels",
-          "Brand sentiment score improved from 6.2 to 8.7 (out of 10) in post-campaign survey",
-          "Campaign framework adopted by 3 additional student organizations",
-        ],
-        null
-      ),
-    };
-    proj.fields.tags = {
-      "en-US": [
-        "Brand Strategy",
-        "Social Media",
-        "Analytics",
-        "Content Marketing",
-      ],
-    };
-    proj.fields.featured = { "en-US": true };
-    proj.fields.sortOrder = { "en-US": 1 };
-    const updated = await proj.update();
-    await updated.publish();
-    console.log('  ✓ project: "Campus Brand Revitalization Campaign"');
+      };
+      proj.fields.featured = { "en-US": true };
+      proj.fields.sortOrder = { "en-US": 1 };
+      const updated = await proj.update();
+      await updated.publish();
+      console.log('  ✓ project: "Campus Brand Revitalization Campaign"');
+    }
+  } catch (err) {
+    console.log(`  ⚠ First project: ${err.message}`);
   }
 
   // --- Create a second project (no thumbnail required if we reuse) ---
@@ -243,152 +247,493 @@ async function main() {
     console.log(`  ⚠ Second project: ${err.message}`);
   }
 
-  // --- skillCategory (strengths) ---
-  const skillEntries = await env.getEntries({ content_type: "skillCategory" });
+  // --- skillCategory: delete all, then recreate exactly 5 ---
+  const skillEntries = await env.getEntries({ content_type: "skillCategory", limit: 100 });
   for (const entry of skillEntries.items) {
-    if (entry.fields.section["en-US"] === "strengths") {
-      entry.fields.categoryName = { "en-US": "Strategic & Analytical" };
-      entry.fields.skills = {
-        "en-US": [
-          { name: "Market Research & Analysis", icon: "Search" },
-          { name: "Data-Driven Decision Making", icon: "BarChart3" },
-          { name: "Brand Strategy & Positioning", icon: "Target" },
-          { name: "Campaign Planning & Execution", icon: "Calendar" },
-          { name: "Consumer Behavior Insights", icon: "Users" },
-          { name: "Competitive Intelligence", icon: "TrendingUp" },
-        ],
-      };
-      entry.fields.displayStyle = { "en-US": "bento-large" };
-      const updated = await entry.update();
-      await updated.publish();
-      console.log('  ✓ skillCategory (strengths): "Strategic & Analytical"');
+    try {
+      if (entry.sys.publishedVersion) await entry.unpublish();
+      await entry.delete();
+    } catch (err) {
+      console.log(`  ⚠ Could not delete skillCategory: ${err.message}`);
     }
+  }
+  console.log(`  ✓ Deleted ${skillEntries.items.length} old skillCategory entries`);
 
-    if (entry.fields.section["en-US"] === "tools") {
-      entry.fields.categoryName = { "en-US": "Digital Marketing Stack" };
-      entry.fields.skills = {
-        "en-US": [
-          { name: "Google Analytics", icon: "BarChart3" },
-          { name: "Hootsuite / Buffer", icon: "Share2" },
-          { name: "Canva & Adobe Suite", icon: "Palette" },
-          { name: "Microsoft Excel", icon: "Table" },
-          { name: "HubSpot CRM", icon: "Database" },
-          { name: "WordPress / CMS", icon: "Globe" },
-        ],
-      };
-      entry.fields.displayStyle = { "en-US": "bento-large" };
-      const updated = await entry.update();
-      await updated.publish();
-      console.log('  ✓ skillCategory (tools): "Digital Marketing Stack"');
+  const skillCategories = [
+    // --- Strengths section: Professional Strengths ---
+    {
+      categoryName: "Sales & Leadership",
+      section: "strengths",
+      skills: [
+        { name: "7 Years in Sales, Service & Leadership", icon: "Briefcase" },
+        { name: "1 Year Account Management at X (Twitter)", icon: "TrendingUp" },
+        { name: "Top Performer, 1-in-4 Conversion Rate", icon: "Award" },
+        { name: "Awarded for Creativity & Salesmanship", icon: "Star" },
+        { name: "Promoted to Leadership in 2 Years", icon: "Shield" },
+        { name: "B2B & B2C Relationship Management", icon: "Users" },
+      ],
+      sortOrder: 1,
+      displayStyle: "bento-large",
+    },
+    {
+      categoryName: "Marketing & Creative",
+      section: "strengths",
+      skills: [
+        { name: "Product Demonstration & Presentations", icon: "Layout" },
+        { name: "Social Media Marketing", icon: "Share2" },
+        { name: "Content Writing & Storytelling", icon: "PenTool" },
+        { name: "Visual Merchandising & Luxury Retail", icon: "Eye" },
+        { name: "Negotiation Skills", icon: "MessageSquare" },
+      ],
+      sortOrder: 2,
+      displayStyle: "bento-large",
+    },
+    {
+      categoryName: "Communication & Interpersonal",
+      section: "strengths",
+      skills: [
+        { name: "Strong Communication & Client Interaction", icon: "MessageSquare" },
+        { name: "Empathy & Emotional Intelligence", icon: "Heart" },
+        { name: "Public Speaking (Toastmasters)", icon: "Mic" },
+        { name: "Active Listening & Mentoring", icon: "Users" },
+        { name: "Problem-Solving Under Pressure", icon: "Zap" },
+        { name: "Team Collaboration & Coordination", icon: "Layout" },
+      ],
+      sortOrder: 3,
+      displayStyle: "bento-large",
+    },
+    {
+      categoryName: "Leadership & Growth Mindset",
+      section: "strengths",
+      skills: [
+        { name: "Decision-Making in Fast-Paced Environments", icon: "Target" },
+        { name: "Adaptability & Fast Learning", icon: "Compass" },
+        { name: "Creative Thinking & Solution Generation", icon: "Lightbulb" },
+        { name: "Leadership Presence & Team Motivation", icon: "Star" },
+        { name: "Self-Motivated & Growth-Oriented", icon: "Rocket" },
+        { name: "Team Player", icon: "Users" },
+      ],
+      sortOrder: 4,
+      displayStyle: "bento-large",
+    },
+    // --- Tools section: actual tools & technologies ---
+    {
+      categoryName: "CRM & Analytics",
+      section: "tools",
+      skills: [
+        { name: "Salesforce CRM", icon: "Database" },
+        { name: "Google Analytics", icon: "BarChart3" },
+        { name: "Meta Ads Manager", icon: "Megaphone" },
+        { name: "LinkedIn Analytics", icon: "TrendingUp" },
+        { name: "Marketing Strategy", icon: "Target" },
+        { name: "Business & Consumer Psychology", icon: "Lightbulb" },
+      ],
+      sortOrder: 1,
+      displayStyle: "bento-large",
+    },
+    {
+      categoryName: "Design & Content",
+      section: "tools",
+      skills: [
+        { name: "Canva", icon: "Palette" },
+        { name: "WordPress / CMS", icon: "Globe" },
+        { name: "Graphic Design", icon: "PenTool" },
+      ],
+      sortOrder: 2,
+      displayStyle: "bento-medium",
+    },
+    {
+      categoryName: "Productivity & Office",
+      section: "tools",
+      skills: [
+        { name: "Microsoft Excel", icon: "Table" },
+        { name: "Microsoft Word", icon: "PenTool" },
+        { name: "Microsoft PowerPoint", icon: "Layout" },
+      ],
+      sortOrder: 3,
+      displayStyle: "bento-medium",
+    },
+  ];
+
+  for (const cat of skillCategories) {
+    try {
+      const entry = await env.createEntry("skillCategory", {
+        fields: {
+          categoryName: { "en-US": cat.categoryName },
+          section: { "en-US": cat.section },
+          skills: { "en-US": cat.skills },
+          sortOrder: { "en-US": cat.sortOrder },
+          displayStyle: { "en-US": cat.displayStyle },
+        },
+      });
+      await entry.publish();
+      console.log(`  ✓ skillCategory: "${cat.categoryName}"`);
+    } catch (err) {
+      console.log(`  ⚠ skillCategory "${cat.categoryName}": ${err.message}`);
     }
   }
 
-  // Create additional skill categories
+  // --- experience ---
+  // First, delete all existing experience entries so we start fresh
+  const expEntries = await env.getEntries({ content_type: "experience" });
+  for (const entry of expEntries.items) {
+    try {
+      if (entry.sys.publishedVersion) {
+        await entry.unpublish();
+      }
+      await entry.delete();
+    } catch (err) {
+      console.log(`  ⚠ Could not delete experience entry: ${err.message}`);
+    }
+  }
+
+  // Experience 1: X Ads / Teleperformance
   try {
-    const creative = await env.createEntry("skillCategory", {
+    const exp1 = await env.createEntry("experience", {
       fields: {
-        categoryName: { "en-US": "Creative & Communication" },
-        section: { "en-US": "strengths" },
-        skills: {
+        jobTitle: { "en-US": "B2B Account Manager – X Ads Sales & Marketing (Team Lead)" },
+        company: { "en-US": "Teleperformance" },
+        dateRange: { "en-US": "2024 – 2025" },
+        description: {
+          "en-US": richTextWithBullets(
+            "Formerly known as Twitter / X Ads Platform.",
+            [
+              "Client Onboarding & Support: Provided personalized guidance to clients via phone and email, assisting with account creation, Shopify pixel installation, and documentation. Ensured adherence to platform guidelines and educated clients on X Ads features.",
+              "Led a team of 8 sales professionals, conducting daily KPI check-ins, morning strategy meetings, and afternoon performance reviews. Team regularly exceeded sales goals and improved campaign quality.",
+              "Drove 20%+ account growth through strategic upsell and cross-sell opportunities across X Ads' digital marketing suite.",
+              "Optimized campaign performance by analyzing data trends, identifying key insights, and presenting actionable recommendations to improve ROI and reduce churn.",
+              "Prospected and developed new business, identifying client pain points and offering tailored ad solutions that improved engagement and conversions.",
+              "Delivered consultative sales presentations, overcoming objections and recommending high-performing placements to boost brand presence.",
+              "Collaborated with Customer Success Managers to refine creative strategies and messaging based on data-driven insights, aligning campaigns with relevance, resonance, and recency best practices.",
+              "Conducted live platform demos, highlighting X Ads' AI-powered campaign automation, audience targeting tools, and creative optimization features.",
+              "Built trust-based client relationships through strategic insight, transparent communication, and personalized marketing consultation.",
+              "Designed customized campaign structures aligned with each client's business objectives to drive measurable growth and audience engagement.",
+              "Utilized CRM and analytics tools to monitor account activity, track KPIs, and refine strategy using X AI-driven insights for improved targeting, sustained partnerships, and ROI.",
+            ],
+            null
+          ),
+        },
+        tags: {
           "en-US": [
-            { name: "Copywriting & Storytelling", icon: "PenTool" },
-            { name: "Public Speaking", icon: "MessageSquare" },
-            { name: "Visual Design Thinking", icon: "Layout" },
-            { name: "Cross-functional Collaboration", icon: "Users" },
+            "B2B Sales",
+            "Account Management",
+            "Team Leadership",
+            "X Ads",
+            "CRM",
+          ],
+        },
+        sortOrder: { "en-US": 1 },
+      },
+    });
+    await exp1.publish();
+    console.log('  ✓ experience: "B2B Account Manager – X Ads (Teleperformance)"');
+  } catch (err) {
+    console.log(`  ⚠ Experience (Teleperformance): ${err.message}`);
+  }
+
+  // Experience 2: Freelancer – Mental Health Blog & SEO
+  try {
+    const exp2 = await env.createEntry("experience", {
+      fields: {
+        jobTitle: { "en-US": "Sales & Marketing Specialist – Freelancer" },
+        company: { "en-US": "Self-Employed (Fiverr / Upwork)" },
+        dateRange: { "en-US": "2022 – 2023" },
+        description: {
+          "en-US": richTextWithBullets(
+            "Product affiliation in Mental Health, Psychology, and Business Courses. Mental Health Blog Freelancer.",
+            [
+              "Conducted comprehensive SEO audits and developed actionable strategies, enhancing client websites' search engine performance through analysis of site structure, keyword optimization, and content improvements.",
+              "Utilized Canva to design engaging graphics for social media posts, email marketing campaigns, and promotional materials, enhancing visual appeal and brand consistency.",
+              "Monitored social media trends and competitor activity to maintain cutting-edge strategies, proactively adjusting approaches to ensure brand relevance.",
+              "Collaborated with marketing teams to integrate social media efforts with broader marketing objectives, ensuring cohesive campaigns with consistent brand messaging.",
+              "Crafted inspirational content using Canva to attract and engage audiences, fostering a positive brand image and inspiring trust and loyalty.",
+              "Oversaw ongoing analysis of marketing campaigns and provided marketing research, data analysis, and trend research.",
+              "Helped in creating and monitoring UA/GA4 plans and campaigns.",
+            ],
+            null
+          ),
+        },
+        tags: {
+          "en-US": [
+            "SEO",
+            "Content Writing",
+            "Canva",
+            "Social Media",
+            "Freelance",
           ],
         },
         sortOrder: { "en-US": 2 },
-        displayStyle: { "en-US": "bento-medium" },
       },
     });
-    await creative.publish();
-    console.log('  ✓ skillCategory: "Creative & Communication"');
+    await exp2.publish();
+    console.log('  ✓ experience: "Sales & Marketing Specialist – Freelancer"');
   } catch (err) {
-    console.log(`  ⚠ Creative skills: ${err.message}`);
+    console.log(`  ⚠ Experience (Freelancer): ${err.message}`);
   }
 
+  // Experience 3: Social Media Marketing Freelancer
   try {
-    const productivity = await env.createEntry("skillCategory", {
+    const exp3 = await env.createEntry("experience", {
       fields: {
-        categoryName: { "en-US": "Productivity & Collaboration" },
-        section: { "en-US": "tools" },
-        skills: {
+        jobTitle: { "en-US": "Social Media Marketing Freelancer" },
+        company: { "en-US": "Scope Media, Toronto / Health-Secret Fitness" },
+        dateRange: { "en-US": "2022 – 2023" },
+        description: {
+          "en-US": richTextWithBullets(
+            "Brand Management and content strategy for diverse clients.",
+            [
+              "Implementation and improvement of SEO strategies. Analyzed market data to determine key target audiences and segments.",
+              "Created engaging visual content using Canva to enhance brand presence across platforms.",
+              "Developed tailored content strategies for mental health professionals and budding entrepreneurs.",
+              "Created compelling articles and blog posts on mental health topics, offering valuable insights and practical advice.",
+              "Consulted with startups and small businesses to craft powerful brand narratives highlighting unique value propositions.",
+              "Leveraged platforms like Fiverr to deliver high-quality professional content to a global clientele.",
+              "Monitored industry trends and best practices to ensure content was current and forward-thinking.",
+              "Wrote children's books on the Mental Health niche (Angelica Rockford Books – on Amazon).",
+            ],
+            null
+          ),
+        },
+        tags: {
           "en-US": [
-            { name: "Notion / Asana", icon: "Layout" },
-            { name: "Google Workspace", icon: "Globe" },
-            { name: "Slack / Teams", icon: "MessageSquare" },
-            { name: "Zoom / Loom", icon: "Users" },
+            "Social Media",
+            "Brand Management",
+            "SEO",
+            "Content Strategy",
+            "Canva",
           ],
         },
-        sortOrder: { "en-US": 2 },
-        displayStyle: { "en-US": "bento-medium" },
+        sortOrder: { "en-US": 3 },
       },
     });
-    await productivity.publish();
-    console.log('  ✓ skillCategory: "Productivity & Collaboration"');
+    await exp3.publish();
+    console.log('  ✓ experience: "Social Media Marketing Freelancer"');
   } catch (err) {
-    console.log(`  ⚠ Productivity tools: ${err.message}`);
+    console.log(`  ⚠ Experience (Social Media Freelancer): ${err.message}`);
   }
 
-  // --- education ---
-  await updateEntry(env, "education", {
-    program: "B.S. Marketing & Business Administration",
-    institution: "Universidad Nacional Autónoma de México",
-    dateRange: "2022 – 2026",
-    focusAreas: [
-      "Digital Marketing",
-      "Consumer Behavior",
-      "Marketing Analytics",
-      "Brand Management",
-    ],
-    description: richText(
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dean's List recipient for 6 consecutive semesters. Relevant coursework includes Digital Marketing Strategy, Consumer Behavior, Marketing Analytics, Strategic Brand Management, and Business Communication.",
-      "Curabitur blandit tempus porttitor. Participated in university case competitions and marketing research symposiums. Vestibulum id ligula porta felis euismod semper."
-    ),
-  });
+  // Experience 4: Norwegian Cruise Line
+  try {
+    const exp4 = await env.createEntry("experience", {
+      fields: {
+        jobTitle: { "en-US": "Shore Excursion Sales Specialist / Manager Assistant" },
+        company: { "en-US": "Norwegian Cruise Line" },
+        dateRange: { "en-US": "2014 – 2020" },
+        description: {
+          "en-US": richTextWithBullets(
+            null,
+            [
+              "Team Leadership & Development (2019–2020): Promoted to Shore Excursions Manager Assistant; guided a diverse team to exceed sales targets and uphold exceptional customer service. Awarded \"Team Lead Inspiration Award, 2020.\"",
+              "Generated an average of 60–70 daily sales by approaching 200+ guests per day and delivering personalized excursion recommendations based on guest preferences and local knowledge.",
+              "Increased onboard revenue through strategic upselling and cross-selling of excursions, add-ons, and VIP experiences, ensuring profitability and guest satisfaction.",
+              "Delivered persuasive presentations and safety briefings to large audiences, clearly communicating features, value, and logistics of excursions – driving booking conversions.",
+              "Managed end-to-end excursion logistics for large groups including booking, scheduling, and confirmation – ensuring a seamless guest experience.",
+              "Collaborated with local vendors and tour operators to ensure high-quality service delivery and create exclusive guest experiences.",
+              "Provided hands-on guest support, answering questions, offering tailored suggestions, and resolving concerns to maintain high satisfaction throughout the customer journey.",
+              "Partnered with marketing and guest relations teams to promote last-minute offers and special packages, boosting sales and occupancy rates. Awarded for Outstanding Customer Service and Effective Problem Resolution (English & Spanish, 2019).",
+              "Incorporated guest feedback into sales approach, continuously optimizing tactics to improve conversions and strengthen guest relationships.",
+            ],
+            null
+          ),
+        },
+        tags: {
+          "en-US": [
+            "Sales",
+            "Team Leadership",
+            "Customer Service",
+            "Upselling",
+            "Presentations",
+          ],
+        },
+        sortOrder: { "en-US": 4 },
+      },
+    });
+    await exp4.publish();
+    console.log('  ✓ experience: "Shore Excursion Sales – Norwegian Cruise Line"');
+  } catch (err) {
+    console.log(`  ⚠ Experience (NCL): ${err.message}`);
+  }
 
-  // --- leadershipActivity ---
+  // Experience 5: Luxurious Clothing Store, Peru
+  try {
+    const exp5 = await env.createEntry("experience", {
+      fields: {
+        jobTitle: { "en-US": "Sales and Operations Manager" },
+        company: { "en-US": "Luxurious Clothing Store & Travel, Peru" },
+        dateRange: { "en-US": "2011 – 2014" },
+        description: {
+          "en-US": richText(
+            "Managed sales operations and day-to-day business activities for a luxury retail and travel enterprise."
+          ),
+        },
+        tags: {
+          "en-US": [
+            "Sales Management",
+            "Luxury Retail",
+            "Operations",
+          ],
+        },
+        sortOrder: { "en-US": 5 },
+      },
+    });
+    await exp5.publish();
+    console.log('  ✓ experience: "Sales and Operations Manager – Peru"');
+  } catch (err) {
+    console.log(`  ⚠ Experience (Peru): ${err.message}`);
+  }
+
+  // --- education: delete all, then recreate ---
+  const eduEntries = await env.getEntries({ content_type: "education", limit: 100 });
+  for (const entry of eduEntries.items) {
+    try {
+      if (entry.sys.publishedVersion) await entry.unpublish();
+      await entry.delete();
+    } catch (err) {
+      console.log(`  ⚠ Could not delete education: ${err.message}`);
+    }
+  }
+  console.log(`  ✓ Deleted ${eduEntries.items.length} old education entries`);
+
+  const educationEntries = [
+    {
+      program: "Business Administration – Marketing B158",
+      institution: "George Brown College",
+      dateRange: "2026 (Current)",
+      sortOrder: 1,
+    },
+    {
+      program: "Persuasive Negotiator",
+      institution: "Yale University | Coursera",
+      dateRange: "2025",
+      sortOrder: 2,
+    },
+    {
+      program: "Strategic Sales Management",
+      institution: "Coursera",
+      dateRange: "2025",
+      sortOrder: 3,
+    },
+    {
+      program: "Leadership and Management Training Programs",
+      institution: "Dale Carnegie Leadership Training",
+      dateRange: "2025",
+      sortOrder: 4,
+    },
+    {
+      program: "Heavy in Customer Service and Leadership Program",
+      institution: "PCPI",
+      dateRange: "2024",
+      sortOrder: 5,
+    },
+    {
+      program: "PMP Certification (Project Management Professional)",
+      institution: "PMI.org",
+      dateRange: "2024",
+      sortOrder: 6,
+    },
+    {
+      program: "Successful Negotiation Skills",
+      institution: "University of Michigan | Coursera",
+      dateRange: "2024",
+      sortOrder: 7,
+    },
+    {
+      program: "Canva Graphic Design for Entrepreneurs – Design 11 Projects",
+      institution: "Udemy",
+      dateRange: "2024",
+      sortOrder: 8,
+    },
+    {
+      program: "Attract and Engage Customers with Digital Marketing",
+      institution: "Google",
+      dateRange: "2023",
+      sortOrder: 9,
+    },
+    {
+      program: "Canva Masterclass for Social Media and Content Creation",
+      institution: "Udemy",
+      dateRange: "2022",
+      sortOrder: 10,
+    },
+    {
+      program: "Advanced Digital Marketing and Communication",
+      institution: "BrainStation",
+      dateRange: "",
+      sortOrder: 11,
+    },
+  ];
+
+  for (const edu of educationEntries) {
+    try {
+      const entry = await env.createEntry("education", {
+        fields: {
+          program: { "en-US": edu.program },
+          institution: { "en-US": edu.institution },
+          dateRange: { "en-US": edu.dateRange },
+          sortOrder: { "en-US": edu.sortOrder },
+        },
+      });
+      await entry.publish();
+      console.log(`  ✓ education: "${edu.program}"`);
+    } catch (err) {
+      console.log(`  ⚠ education "${edu.program}": ${err.message}`);
+    }
+  }
+
+  // --- leadershipActivity: delete all, then recreate ---
   const leaderEntries = await env.getEntries({
     content_type: "leadershipActivity",
+    limit: 100,
   });
-  if (leaderEntries.items.length > 0) {
-    const leader = leaderEntries.items[0];
-    leader.fields.title = { "en-US": "Marketing Club President" };
-    leader.fields.organization = {
-      "en-US": "University Marketing Association",
-    };
-    leader.fields.dateRange = { "en-US": "2024 – Present" };
-    leader.fields.description = {
-      "en-US": richText(
+  for (const entry of leaderEntries.items) {
+    try {
+      if (entry.sys.publishedVersion) await entry.unpublish();
+      await entry.delete();
+    } catch (err) {
+      console.log(`  ⚠ Could not delete leadershipActivity: ${err.message}`);
+    }
+  }
+  console.log(`  ✓ Deleted ${leaderEntries.items.length} old leadershipActivity entries`);
+
+  const leadershipActivities = [
+    {
+      title: "Marketing Club President",
+      organization: "University Marketing Association",
+      dateRange: "2024 – Present",
+      description: richText(
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Led a team of 20 members in organizing bi-weekly marketing workshops, industry networking events, and inter-university case competitions. Grew club membership by 45% through targeted campus outreach.",
         "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore. Coordinated partnerships with 5 local businesses for real-world marketing projects, providing students with hands-on portfolio-building opportunities."
       ),
-    };
-    const updated = await leader.update();
-    await updated.publish();
-    console.log('  ✓ leadershipActivity: "Marketing Club President"');
-  }
+      sortOrder: 1,
+    },
+    {
+      title: "Toastmasters International Participant",
+      organization: "Campus Toastmasters Chapter",
+      dateRange: "2023 – Present",
+      description: richText(
+        "Nullam quis risus eget urna mollis ornare vel eu leo. Completed 15+ prepared speeches and earned Competent Communicator designation. Regularly serve as meeting evaluator and timer, developing critical feedback and time-management skills.",
+        "Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Won 2nd place in regional impromptu speaking competition against 40+ participants."
+      ),
+      sortOrder: 2,
+    },
+  ];
 
-  // Create second leadership entry
-  try {
-    const leader2 = await env.createEntry("leadershipActivity", {
-      fields: {
-        title: { "en-US": "Toastmasters International Participant" },
-        organization: { "en-US": "Campus Toastmasters Chapter" },
-        dateRange: { "en-US": "2023 – Present" },
-        description: {
-          "en-US": richText(
-            "Nullam quis risus eget urna mollis ornare vel eu leo. Completed 15+ prepared speeches and earned Competent Communicator designation. Regularly serve as meeting evaluator and timer, developing critical feedback and time-management skills.",
-            "Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Won 2nd place in regional impromptu speaking competition against 40+ participants."
-          ),
+  for (const act of leadershipActivities) {
+    try {
+      const entry = await env.createEntry("leadershipActivity", {
+        fields: {
+          title: { "en-US": act.title },
+          organization: { "en-US": act.organization },
+          dateRange: { "en-US": act.dateRange },
+          description: { "en-US": act.description },
+          sortOrder: { "en-US": act.sortOrder },
         },
-        sortOrder: { "en-US": 2 },
-      },
-    });
-    await leader2.publish();
-    console.log('  ✓ leadershipActivity: "Toastmasters International"');
-  } catch (err) {
-    console.log(`  ⚠ Second leadership: ${err.message}`);
+      });
+      await entry.publish();
+      console.log(`  ✓ leadershipActivity: "${act.title}"`);
+    } catch (err) {
+      console.log(`  ⚠ leadershipActivity "${act.title}": ${err.message}`);
+    }
   }
 
   // --- contactSection ---

@@ -504,14 +504,14 @@ const sampleEntries = [
   {
     contentType: "skillCategory",
     fields: {
-      categoryName: { "en-US": "Strategic & Analytical" },
+      categoryName: { "en-US": "Sales & Leadership" },
       section: { "en-US": "strengths" },
       skills: {
         "en-US": [
-          { name: "Market Research", icon: "Search" },
-          { name: "Data Analysis", icon: "BarChart3" },
-          { name: "Brand Strategy", icon: "Target" },
-          { name: "Campaign Planning", icon: "Calendar" },
+          { name: "7 Years in Sales, Service & Leadership", icon: "Briefcase" },
+          { name: "1 Year Account Management at X (Twitter)", icon: "TrendingUp" },
+          { name: "Top Performer, 1-in-4 Conversion Rate", icon: "Award" },
+          { name: "Awarded for Creativity & Salesmanship", icon: "Star" },
         ],
       },
       sortOrder: { "en-US": 1 },
@@ -521,14 +521,14 @@ const sampleEntries = [
   {
     contentType: "skillCategory",
     fields: {
-      categoryName: { "en-US": "Digital Marketing Tools" },
+      categoryName: { "en-US": "Communication & Interpersonal" },
       section: { "en-US": "tools" },
       skills: {
         "en-US": [
-          { name: "Google Analytics", icon: "BarChart3" },
-          { name: "Canva", icon: "Palette" },
-          { name: "Hootsuite", icon: "Share2" },
-          { name: "Microsoft Excel", icon: "Table" },
+          { name: "Strong Communication & Client Interaction", icon: "MessageSquare" },
+          { name: "Empathy & Emotional Intelligence", icon: "Heart" },
+          { name: "Public Speaking (Toastmasters)", icon: "Mic" },
+          { name: "Problem-Solving Under Pressure", icon: "Zap" },
         ],
       },
       sortOrder: { "en-US": 1 },
@@ -589,16 +589,22 @@ const sampleEntries = [
     },
   },
   // Navigation items
-  ...["About", "Projects", "Strengths", "Education", "Leadership", "Tools", "Contact"].map(
-    (label, i) => ({
-      contentType: "navigationItem",
-      fields: {
-        label: { "en-US": label },
-        anchor: { "en-US": `#${label.toLowerCase()}` },
-        sortOrder: { "en-US": i + 1 },
-      },
-    })
-  ),
+  ...[
+    { label: "About", anchor: "#about" },
+    { label: "Projects", anchor: "#projects" },
+    { label: "Strengths", anchor: "#strengths" },
+    { label: "Education", anchor: "#education" },
+    { label: "Leadership", anchor: "#leadership" },
+    { label: "Tools", anchor: "#tools" },
+    { label: "Contact", anchor: "#contact" },
+  ].map(({ label, anchor }, i) => ({
+    contentType: "navigationItem",
+    fields: {
+      label: { "en-US": label },
+      anchor: { "en-US": anchor },
+      sortOrder: { "en-US": i + 1 },
+    },
+  })),
 ];
 
 // ─── Main ────────────────────────────────────────────────────────────

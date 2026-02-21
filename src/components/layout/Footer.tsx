@@ -1,12 +1,37 @@
 "use client";
 
+import { Linkedin, Youtube, Instagram, Facebook } from "lucide-react";
+
 interface FooterProps {
   name?: string;
   email?: string;
   linkedinUrl?: string;
 }
 
-export function Footer({ name, email, linkedinUrl }: FooterProps) {
+const socialLinks = [
+  {
+    href: "https://www.linkedin.com/in/angelicarockford/",
+    label: "LinkedIn",
+    icon: Linkedin,
+  },
+  {
+    href: "https://www.youtube.com/@angelicarockford",
+    label: "YouTube",
+    icon: Youtube,
+  },
+  {
+    href: "https://www.instagram.com/angelicarockford/",
+    label: "Instagram",
+    icon: Instagram,
+  },
+  {
+    href: "https://www.facebook.com/angelicarockfordchildrenbooks/",
+    label: "Facebook",
+    icon: Facebook,
+  },
+];
+
+export function Footer({ name, email }: FooterProps) {
   const year = new Date().getFullYear();
 
   return (
@@ -25,16 +50,18 @@ export function Footer({ name, email, linkedinUrl }: FooterProps) {
                 {email}
               </a>
             )}
-            {linkedinUrl && (
+            {socialLinks.map(({ href, label, icon: Icon }) => (
               <a
-                href={linkedinUrl}
+                key={label}
+                href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs hover:text-white/75 transition-colors"
+                aria-label={label}
+                className="text-white/45 hover:text-white/75 transition-colors"
               >
-                LinkedIn
+                <Icon className="w-4 h-4" />
               </a>
-            )}
+            ))}
           </div>
         </div>
         <p className="text-center text-[10px] text-white/20 mt-3 tracking-wide">

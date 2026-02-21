@@ -73,15 +73,18 @@ function EduCard({ edu }: { edu: EducationType }) {
 
 function ZigzagTimeline({ items }: { items: EducationType[] }) {
   const shouldReduceMotion = useReducedMotion();
+  const colWidth = 190;
 
   return (
-    <div className="hidden md:block relative">
-      {/* CSS Grid: one column per entry */}
+    <div className="hidden md:block relative overflow-x-auto pb-4 -mx-6 px-6">
+      {/* CSS Grid: one column per entry with fixed min-width */}
       <div
-        className="grid gap-0"
+        className="grid gap-0 mx-auto"
         style={{
-          gridTemplateColumns: `repeat(${items.length}, 1fr)`,
+          gridTemplateColumns: `repeat(${items.length}, minmax(${colWidth}px, 1fr))`,
           gridTemplateRows: "auto auto auto",
+          minWidth: `${items.length * colWidth}px`,
+          maxWidth: `${items.length * 220}px`,
         }}
       >
         {/* Row 1: cards that sit ABOVE the line (even indices: 0, 2, 4…) */}
