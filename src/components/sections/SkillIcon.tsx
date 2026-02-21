@@ -28,6 +28,7 @@ import {
   Mic,
   Compass,
   Rocket,
+  Cloud,
   type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
@@ -60,6 +61,7 @@ const iconMap: Record<string, LucideIcon> = {
   Mic,
   Compass,
   Rocket,
+  Cloud,
 };
 
 interface SkillIconProps {

@@ -1,6 +1,16 @@
 "use client";
 
-import { Mail, MapPin, Linkedin, ExternalLink } from "lucide-react";
+import {
+  Mail,
+  MapPin,
+  Linkedin,
+  Phone,
+  Youtube,
+  Instagram,
+  Facebook,
+  ExternalLink,
+  type LucideIcon,
+} from "lucide-react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
 import { MagneticButton } from "@/components/ui/MagneticButton";
@@ -8,6 +18,13 @@ import { RevealOnScroll } from "@/components/animations/RevealOnScroll";
 import { StaggerChildren, StaggerItem } from "@/components/animations/StaggerChildren";
 import { TextReveal } from "@/components/animations/TextReveal";
 import type { ContactSection } from "@/types/contentful";
+
+const linkIconMap: Record<string, LucideIcon> = {
+  Youtube,
+  Instagram,
+  Facebook,
+  Linkedin,
+};
 
 interface ContactProps {
   data: ContactSection | null;
@@ -56,6 +73,18 @@ export function Contact({ data }: ContactProps) {
               </a>
             </StaggerItem>
 
+            <StaggerItem>
+              <a
+                href="tel:+16476139984"
+                className="flex items-center gap-3 text-white/80 hover:text-white transition-colors group"
+              >
+                <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-[var(--color-accent)]/25 transition-colors">
+                  <Phone size={18} />
+                </div>
+                <span>647-613-9984</span>
+              </a>
+            </StaggerItem>
+
             {data.location && (
               <StaggerItem>
                 <div className="flex items-center gap-3 text-white/55">
@@ -78,26 +107,29 @@ export function Contact({ data }: ContactProps) {
                   <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-[var(--color-accent)]/25 transition-colors">
                     <Linkedin size={18} />
                   </div>
-                  <span>LinkedIn Profile</span>
+                  <span>LinkedIn</span>
                 </a>
               </StaggerItem>
             )}
 
-            {links?.map((link) => (
-              <StaggerItem key={link.label}>
-                <a
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-3 text-white/80 hover:text-white transition-colors group"
-                >
-                  <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-[var(--color-accent)]/25 transition-colors">
-                    <ExternalLink size={18} />
-                  </div>
-                  <span>{link.label}</span>
-                </a>
-              </StaggerItem>
-            ))}
+            {links?.map((link) => {
+              const IconComp = link.icon ? linkIconMap[link.icon] : null;
+              return (
+                <StaggerItem key={link.label}>
+                  <a
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 text-white/80 hover:text-white transition-colors group"
+                  >
+                    <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-[var(--color-accent)]/25 transition-colors">
+                      {IconComp ? <IconComp size={18} /> : <ExternalLink size={18} />}
+                    </div>
+                    <span>{link.label}</span>
+                  </a>
+                </StaggerItem>
+              );
+            })}
           </StaggerChildren>
 
           <RevealOnScroll direction="right" delay={0.2}>

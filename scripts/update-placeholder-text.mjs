@@ -284,8 +284,6 @@ async function main() {
         { name: "Google Analytics", icon: "BarChart3" },
         { name: "Meta Ads Manager", icon: "Megaphone" },
         { name: "LinkedIn Analytics", icon: "TrendingUp" },
-        { name: "Marketing Strategy", icon: "Target" },
-        { name: "Business & Consumer Psychology", icon: "Lightbulb" },
       ],
       sortOrder: 1,
       displayStyle: "bento-large",
@@ -295,7 +293,7 @@ async function main() {
       section: "tools",
       skills: [
         { name: "Canva", icon: "Palette" },
-        { name: "WordPress / CMS", icon: "Globe" },
+        { name: "WordPress & Website Updates", icon: "Globe" },
         { name: "Graphic Design", icon: "PenTool" },
       ],
       sortOrder: 2,
@@ -310,6 +308,16 @@ async function main() {
         { name: "Microsoft PowerPoint", icon: "Layout" },
       ],
       sortOrder: 3,
+      displayStyle: "bento-medium",
+    },
+    {
+      categoryName: "AI & SaaS",
+      section: "tools",
+      skills: [
+        { name: "AI Tools & Automation", icon: "Zap" },
+        { name: "SaaS Platforms", icon: "Cloud" },
+      ],
+      sortOrder: 4,
       displayStyle: "bento-medium",
     },
   ];
@@ -703,15 +711,25 @@ async function main() {
   await updateEntry(env, "contactSection", {
     heading: "Let's Connect",
     subheading:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. I'm actively seeking internship and junior marketing roles where I can contribute data-driven strategy and creative energy. Ut enim ad minim veniam, let's discuss how we can work together.",
-    email: "angelica.guze@email.com",
-    linkedinUrl: "https://linkedin.com/in/angelicaguze",
-    location: "Mexico City, MX",
+      "I'm passionate about marketing, sales leadership, and building meaningful brands. Whether you're looking for a driven team player or want to collaborate on a creative project, let's talk.",
+    email: "guzangelica971@gmail.com",
+    linkedinUrl: "https://www.linkedin.com/in/angelicarockford/",
+    location: "118 Montgomery Ave, M4R 1E3, Toronto",
     additionalLinks: [
       {
-        label: "LinkedIn",
-        url: "https://linkedin.com/in/angelicaguze",
-        icon: "Linkedin",
+        label: "YouTube",
+        url: "https://www.youtube.com/@angelicarockford",
+        icon: "Youtube",
+      },
+      {
+        label: "Instagram",
+        url: "https://www.instagram.com/angelicarockford/",
+        icon: "Instagram",
+      },
+      {
+        label: "Facebook",
+        url: "https://www.facebook.com/angelicarockfordchildrenbooks/",
+        icon: "Facebook",
       },
     ],
   });
