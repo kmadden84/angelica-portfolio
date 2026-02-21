@@ -111,36 +111,6 @@ export function Contact({ data }: ContactProps) {
                   Get In Touch
                 </Button>
               </MagneticButton>
-
-              {/* Social icons row */}
-              <div className="flex items-center gap-3">
-                {data.linkedinUrl && (
-                  <a
-                    href={data.linkedinUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="LinkedIn"
-                    className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white/70 hover:text-white hover:bg-[var(--color-accent)]/25 transition-colors"
-                  >
-                    <Linkedin size={18} />
-                  </a>
-                )}
-                {links?.map((link) => {
-                  const IconComp = link.icon ? linkIconMap[link.icon] : null;
-                  return (
-                    <a
-                      key={link.label}
-                      href={link.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={link.label}
-                      className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white/70 hover:text-white hover:bg-[var(--color-accent)]/25 transition-colors"
-                    >
-                      {IconComp ? <IconComp size={18} /> : <ExternalLink size={18} />}
-                    </a>
-                  );
-                })}
-              </div>
             </div>
           </RevealOnScroll>
         </div>
