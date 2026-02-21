@@ -130,121 +130,80 @@ async function main() {
     ],
   });
 
-  // --- project ---
-  const projectEntries = await env.getEntries({ content_type: "project" });
-  try {
-    if (projectEntries.items.length > 0) {
-      const proj = projectEntries.items[0];
-      proj.fields.title = { "en-US": "Campus Brand Revitalization Campaign" };
-      proj.fields.slug = { "en-US": "campus-brand-revitalization" };
-      proj.fields.context = {
-        "en-US":
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
-      };
-      proj.fields.objective = {
-        "en-US":
-          "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Target a 45% increase in brand awareness metrics within one academic semester.",
-      };
-      proj.fields.role = { "en-US": "Lead Brand Strategist & Campaign Manager" };
-      proj.fields.actions = {
-        "en-US": richTextWithBullets(
-          "Executed a comprehensive multi-channel strategy:",
-          [
-            "Conducted stakeholder interviews and competitive audit across 12 peer institutions to identify positioning gaps",
-            "Developed integrated content calendar spanning Instagram, LinkedIn, and TikTok with 60+ planned touchpoints",
-            "Designed A/B tested ad creatives using Canva and Figma, iterating based on weekly performance data",
-            "Coordinated influencer partnerships with 8 campus micro-influencers to amplify organic reach",
-            "Built automated reporting dashboard in Google Data Studio tracking KPIs across all channels",
-          ],
-          null
-        ),
-      };
-      proj.fields.results = {
-        "en-US": richTextWithBullets(
-          "Campaign delivered measurable impact across all target metrics:",
-          [
-            "52% increase in social media engagement rate (vs. 40% target)",
-            "31% growth in follower count across platforms within 90 days",
-            "3.2x increase in website referral traffic from social channels",
-            "Brand sentiment score improved from 6.2 to 8.7 (out of 10) in post-campaign survey",
-            "Campaign framework adopted by 3 additional student organizations",
-          ],
-          null
-        ),
-      };
-      proj.fields.tags = {
-        "en-US": [
-          "Brand Strategy",
-          "Social Media",
-          "Analytics",
-          "Content Marketing",
-        ],
-      };
-      proj.fields.featured = { "en-US": true };
-      proj.fields.sortOrder = { "en-US": 1 };
-      const updated = await proj.update();
-      await updated.publish();
-      console.log('  ✓ project: "Campus Brand Revitalization Campaign"');
+  // --- project: delete all, then recreate ---
+  const projectEntries = await env.getEntries({ content_type: "project", limit: 100 });
+  // Save thumbnail from first existing entry to reuse
+  const savedThumbnail = projectEntries.items[0]?.fields.thumbnail;
+  for (const entry of projectEntries.items) {
+    try {
+      if (entry.sys.publishedVersion) await entry.unpublish();
+      await entry.delete();
+    } catch (err) {
+      console.log(`  ⚠ Could not delete project: ${err.message}`);
     }
-  } catch (err) {
-    console.log(`  ⚠ First project: ${err.message}`);
   }
+  console.log(`  ✓ Deleted ${projectEntries.items.length} old project entries`);
 
-  // --- Create a second project (no thumbnail required if we reuse) ---
   try {
-    const proj2 = await env.createEntry("project", {
+    const proj1 = await env.createEntry("project", {
       fields: {
-        title: { "en-US": "Market Research & Consumer Insights Study" },
-        slug: { "en-US": "market-research-insights" },
+        title: { "en-US": "Indie Author – Amazon: Books Published" },
+        slug: { "en-US": "amazon-books-published" },
         context: {
           "en-US":
-            "Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Nullam quis risus eget urna mollis ornare vel eu leo. A regional retail chain sought to understand shifting consumer preferences in the post-pandemic landscape.",
+            "As an indie author on Amazon, Angelica Rockford writes children's books focused on mental health, emotional intelligence, and family healing. Her work draws on influences from Louise Hay, Eckhart Tolle, and Lao Tzu, blending mindfulness philosophy with approachable storytelling for young readers and their parents.",
         },
         objective: {
           "en-US":
-            "Maecenas sed diam eget risus varius blandit sit amet non magna. Deliver actionable consumer insights to inform the client's Q3 product positioning and pricing strategy.",
+            "Create accessible, bilingual children's literature that normalizes conversations around mental health, teaches emotional resilience, and helps families navigate difficult topics like forgiveness, self-worth, and breaking generational trauma.",
         },
-        role: { "en-US": "Research Lead & Data Analyst" },
+        role: { "en-US": "Author, Content Creator & Self-Publisher" },
         actions: {
           "en-US": richTextWithBullets(
-            "Led end-to-end primary and secondary research initiative:",
+            "Published multiple titles on Amazon (Kindle & paperback) since June 2023:",
             [
-              "Designed and deployed a 42-question survey instrument distributed to 500+ respondents across 3 market segments",
-              "Facilitated 6 focus group sessions with demographically diverse participant pools",
-              "Performed quantitative analysis using SPSS and Excel, identifying 4 statistically significant consumer behavior shifts",
-              "Synthesized findings into a 35-page strategic recommendation deck with actionable next steps",
+              "\"The Sleepy Head & The Three Wishes\" – A whimsical bilingual (English/Spanish) story teaching diversity, inclusion, empathy, and friendship through myths and morals. Enhances emotional intelligence and strong values through spirituality and philosophy.",
+              "\"Mistakes Are Not Scary\" (Series: Parts 1 & 2, plus 2-in-1 edition) – An interactive father-and-son story about compassion, forgiveness, and overcoming the fear of mistakes. Helps kids and parents break generational trauma and create a safe space for growth.",
+              "\"Yes! I Own My Mistakes, and I Say Sorry\" – A kids' book about taking responsibility and learning from mistakes, with interactive questions to build accountability.",
+              "\"Our First Valentine's, My Son\" – A sentimental rhyming book for first-time moms, celebrating the journey from pregnancy to birth with courage and hope.",
+              "\"Letters to the Women Who Never Loved Me, My Mom\" – A deeply personal debut exploring healing, self-discovery, and moving forward from painful pasts.",
+              "Managed the entire self-publishing pipeline: writing, editing, cover design (Canva), formatting, Amazon KDP publishing, and ongoing marketing.",
+              "Built author brand across Amazon with consistent visual identity and SEO-optimized book descriptions.",
             ],
             null
           ),
         },
         results: {
           "en-US": richTextWithBullets(
-            "Research directly influenced client strategy:",
+            "Impact and reach:",
             [
-              "Client adopted 3 of 4 pricing recommendations, resulting in 18% margin improvement in Q3",
-              "Consumer segmentation model reduced ad spend waste by 22% through improved targeting",
-              "Research methodology was documented as a repeatable framework for future studies",
+              "Multiple titles published and available on Amazon Kindle and paperback across Amazon.com, Amazon.ca, and international markets.",
+              "Bilingual editions (English/Spanish) expanding reach to diverse audiences.",
+              "Books address underserved niche: children's mental health, emotional intelligence, and breaking generational trauma.",
+              "Established author brand \"Angelica Rockford Books\" with a growing catalog and reader following.",
             ],
             null
           ),
         },
         tags: {
           "en-US": [
-            "Market Research",
-            "Data Analysis",
-            "Consumer Behavior",
-            "Strategy",
+            "Self-Publishing",
+            "Children's Books",
+            "Mental Health",
+            "Content Creation",
+            "Amazon KDP",
           ],
         },
-        featured: { "en-US": false },
-        sortOrder: { "en-US": 2 },
-        thumbnail: projectEntries.items[0]?.fields.thumbnail, // reuse same thumbnail
+        externalLink: { "en-US": "https://www.amazon.ca/stores/Angelica-Rockford/author/B0B2R66KKL" },
+        featured: { "en-US": true },
+        sortOrder: { "en-US": 1 },
+        ...(savedThumbnail ? { thumbnail: savedThumbnail } : {}),
       },
     });
-    await proj2.publish();
-    console.log('  ✓ project: "Market Research & Consumer Insights Study"');
+    await proj1.publish();
+    console.log('  ✓ project: "Indie Author – Amazon: Books Published"');
   } catch (err) {
-    console.log(`  ⚠ Second project: ${err.message}`);
+    console.log(`  ⚠ Project (Amazon Books): ${err.message}`);
   }
 
   // --- skillCategory: delete all, then recreate exactly 5 ---
@@ -697,22 +656,26 @@ async function main() {
 
   const leadershipActivities = [
     {
-      title: "Marketing Club President",
-      organization: "University Marketing Association",
-      dateRange: "2024 – Present",
-      description: richText(
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Led a team of 20 members in organizing bi-weekly marketing workshops, industry networking events, and inter-university case competitions. Grew club membership by 45% through targeted campus outreach.",
-        "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore. Coordinated partnerships with 5 local businesses for real-world marketing projects, providing students with hands-on portfolio-building opportunities."
+      title: "Speaker – Toastmasters Yonge and Eglinton",
+      organization: "Toastmasters Yonge and Eglinton",
+      dateRange: "June 2024 – Present",
+      description: richTextWithBullets(
+        null,
+        [
+          "Running as Club President, leading the executive team, and facilitating weekly meetings.",
+          "Provide mentorship and feedback to members, fostering growth in public speaking and leadership.",
+          "Host events and maintain high member engagement through communication and goal-setting.",
+        ],
+        null
       ),
       sortOrder: 1,
     },
     {
-      title: "Toastmasters International Participant",
-      organization: "Campus Toastmasters Chapter",
-      dateRange: "2023 – Present",
+      title: "Recreational Volleyball & Tennis",
+      organization: "Toronto",
+      dateRange: "",
       description: richText(
-        "Nullam quis risus eget urna mollis ornare vel eu leo. Completed 15+ prepared speeches and earned Competent Communicator designation. Regularly serve as meeting evaluator and timer, developing critical feedback and time-management skills.",
-        "Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Won 2nd place in regional impromptu speaking competition against 40+ participants."
+        "Regular weekend participation in team and individual sports, strengthening collaboration, focus, and performance under pressure."
       ),
       sortOrder: 2,
     },
