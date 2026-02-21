@@ -59,7 +59,8 @@ export function Contact({ data }: ContactProps) {
           </RevealOnScroll>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+          {/* Left: contact details */}
           <StaggerChildren className="flex flex-col gap-3" staggerDelay={0.1}>
             <StaggerItem>
               <a
@@ -95,55 +96,51 @@ export function Contact({ data }: ContactProps) {
                 </div>
               </StaggerItem>
             )}
-
-            {data.linkedinUrl && (
-              <StaggerItem>
-                <a
-                  href={data.linkedinUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-3 text-white/80 hover:text-white transition-colors group"
-                >
-                  <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-[var(--color-accent)]/25 transition-colors">
-                    <Linkedin size={18} />
-                  </div>
-                  <span>LinkedIn</span>
-                </a>
-              </StaggerItem>
-            )}
-
-            {links?.map((link) => {
-              const IconComp = link.icon ? linkIconMap[link.icon] : null;
-              return (
-                <StaggerItem key={link.label}>
-                  <a
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-3 text-white/80 hover:text-white transition-colors group"
-                  >
-                    <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-[var(--color-accent)]/25 transition-colors">
-                      {IconComp ? <IconComp size={18} /> : <ExternalLink size={18} />}
-                    </div>
-                    <span>{link.label}</span>
-                  </a>
-                </StaggerItem>
-              );
-            })}
           </StaggerChildren>
 
+          {/* Right: CTA + social icons */}
           <RevealOnScroll direction="right" delay={0.2}>
-            <div className="flex flex-col justify-center items-start md:items-end">
+            <div className="flex flex-col items-start md:items-end gap-6">
               <TextReveal
                 text="Let's build something great together."
                 tag="p"
-                className="text-xl md:text-2xl font-bold text-white mb-4 md:text-right"
+                className="text-xl md:text-2xl font-bold text-white md:text-right"
               />
               <MagneticButton>
                 <Button variant="primary" size="lg" href={`mailto:${data.email}`}>
                   Get In Touch
                 </Button>
               </MagneticButton>
+
+              {/* Social icons row */}
+              <div className="flex items-center gap-3">
+                {data.linkedinUrl && (
+                  <a
+                    href={data.linkedinUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="LinkedIn"
+                    className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white/70 hover:text-white hover:bg-[var(--color-accent)]/25 transition-colors"
+                  >
+                    <Linkedin size={18} />
+                  </a>
+                )}
+                {links?.map((link) => {
+                  const IconComp = link.icon ? linkIconMap[link.icon] : null;
+                  return (
+                    <a
+                      key={link.label}
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={link.label}
+                      className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white/70 hover:text-white hover:bg-[var(--color-accent)]/25 transition-colors"
+                    >
+                      {IconComp ? <IconComp size={18} /> : <ExternalLink size={18} />}
+                    </a>
+                  );
+                })}
+              </div>
             </div>
           </RevealOnScroll>
         </div>
