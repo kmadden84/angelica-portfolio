@@ -40,10 +40,10 @@ export function Navbar({ items, siteName, resumeUrl }: NavbarProps) {
           : "bg-transparent"
       )}
     >
-      <nav className="mx-auto max-w-6xl flex items-center justify-between px-6 md:px-12 lg:px-20 h-16 md:h-20">
+      <nav className="mx-auto max-w-6xl flex items-center justify-between gap-8 px-6 md:px-12 lg:px-20 h-16 md:h-20">
         <a
           href="#hero"
-          className="text-lg font-bold tracking-tight text-[var(--color-text)] shrink-0 truncate max-w-[220px] sm:max-w-none"
+          className="text-lg font-bold tracking-tight text-[var(--color-text)] shrink-0"
         >
           <span className="sm:hidden">{shortName}</span>
           <span className="hidden sm:inline">{fullName}</span>
