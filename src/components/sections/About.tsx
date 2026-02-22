@@ -14,6 +14,7 @@ import type { Asset } from "contentful";
 interface AboutProps {
   data: AboutSection | null;
   alt?: boolean;
+  projectCount?: number;
 }
 
 function getAssetUrl(asset?: Asset): string {
@@ -22,11 +23,17 @@ function getAssetUrl(asset?: Asset): string {
   return file?.url || "";
 }
 
-export function About({ data, alt }: AboutProps) {
+export function About({ data, alt, projectCount }: AboutProps) {
   if (!data) return null;
 
   const photoUrl = getAssetUrl(data.photo);
-  const highlights = data.highlights as { label: string; value: string }[] | undefined;
+  const rawHighlights = data.highlights as { label: string; value: string }[] | undefined;
+  const highlights = rawHighlights?.map((h) => {
+    if (h.label.toLowerCase() === "projects" && projectCount != null) {
+      return { ...h, value: `${projectCount}+` };
+    }
+    return h;
+  });
 
   return (
     <SectionWrapper id="about" alt={alt}>

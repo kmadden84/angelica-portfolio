@@ -115,7 +115,7 @@ export function ClientPage({ data: initialData }: { data: PageData }) {
 
       <main>
         <Hero data={heroFields} resumeUrl={resumeUrl} />
-        <About data={aboutFields} alt />
+        <About data={aboutFields} alt projectCount={projectFields.length} />
         <Projects data={projectFields} />
         <Strengths data={strengthFields} alt />
         <Experience data={expFields} />
