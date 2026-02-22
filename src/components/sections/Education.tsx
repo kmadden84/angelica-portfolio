@@ -44,7 +44,7 @@ function EduCard({ edu }: { edu: EducationType }) {
           />
         )}
         <div className="flex-1 min-w-0">
-          <p className="text-xs font-medium text-[var(--color-accent)] mb-1">
+          <p className="text-sm font-bold text-[var(--color-accent)] mb-1 tracking-wide">
             {edu.dateRange}
           </p>
           <h3 className="text-base font-bold leading-snug mb-0.5">

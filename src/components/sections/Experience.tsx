@@ -47,7 +47,7 @@ function ExperienceEntry({ exp, index }: { exp: ExperienceType; index: number })
           )}
 
           <div className="flex-1">
-            <p className="text-sm font-medium text-[var(--color-accent)] mb-1">
+            <p className="text-sm font-bold text-[var(--color-accent)] mb-1 tracking-wide">
               {exp.dateRange}
             </p>
             <h3 className="text-xl font-bold mb-1">
