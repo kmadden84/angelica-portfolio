@@ -9,6 +9,7 @@ import { Strengths } from "@/components/sections/Strengths";
 import { Experience } from "@/components/sections/Experience";
 import { Education } from "@/components/sections/Education";
 import { Leadership } from "@/components/sections/Leadership";
+import { NetworkEvents } from "@/components/sections/NetworkEvents";
 import { Tools } from "@/components/sections/Tools";
 import { Contact } from "@/components/sections/Contact";
 import { GsapProvider } from "@/components/animations/GsapProvider";
@@ -31,6 +32,7 @@ export function ClientPage({ data: initialData }: { data: PageData }) {
     experience,
     education,
     leadership,
+    networkEvents,
     contact,
     navigation,
   } = data;
@@ -97,6 +99,7 @@ export function ClientPage({ data: initialData }: { data: PageData }) {
   const leaderFields = leadership.map(
     (l) => l.fields as unknown as import("@/types/contentful").LeadershipActivity
   );
+  const networkEventsFields = networkEvents?.fields as unknown as import("@/types/contentful").NetworkEventsSection | null;
 
   return (
     <GsapProvider>
@@ -118,6 +121,7 @@ export function ClientPage({ data: initialData }: { data: PageData }) {
         <Experience data={expFields} />
         <Education data={eduFields} />
         <Leadership data={leaderFields} />
+        <NetworkEvents data={networkEventsFields} />
         <Tools data={toolFields} />
         <WaveDivider variant="to-dark" />
         <Contact data={contactFields} />

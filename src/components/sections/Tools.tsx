@@ -20,7 +20,7 @@ export function Tools({ data }: ToolsProps) {
   return (
     <SectionWrapper id="tools">
       <RevealOnScroll>
-        <SectionHeading number="07" title="Tools & Technologies" />
+        <SectionHeading number="08" title="Tools & Technologies" />
       </RevealOnScroll>
 
       <StaggerChildren staggerDelay={0.12}>

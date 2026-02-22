@@ -111,6 +111,15 @@ export interface LeadershipActivitySkeleton extends EntrySkeletonType {
   };
 }
 
+export interface NetworkEventsSectionSkeleton extends EntrySkeletonType {
+  contentTypeId: "networkEventsSection";
+  fields: {
+    heading: string;
+    subheading?: string;
+    images?: Asset[];
+  };
+}
+
 export interface ContactSectionSkeleton extends EntrySkeletonType {
   contentTypeId: "contactSection";
   fields: {
@@ -141,5 +150,6 @@ export type SkillCategory = SkillCategorySkeleton["fields"];
 export type Experience = ExperienceSkeleton["fields"];
 export type Education = EducationSkeleton["fields"];
 export type LeadershipActivity = LeadershipActivitySkeleton["fields"];
+export type NetworkEventsSection = NetworkEventsSectionSkeleton["fields"];
 export type ContactSection = ContactSectionSkeleton["fields"];
 export type NavigationItem = NavigationItemSkeleton["fields"];

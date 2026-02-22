@@ -21,6 +21,7 @@ async function fetchAllPageData(): Promise<PageData> {
     experienceRes,
     educationRes,
     leadershipRes,
+    networkEventsRes,
     contactRes,
     navigationRes,
   ] = await Promise.all([
@@ -33,6 +34,7 @@ async function fetchAllPageData(): Promise<PageData> {
     client.getEntries({ content_type: "experience", order: ["fields.sortOrder"], include: 2 }),
     client.getEntries({ content_type: "education", order: ["fields.sortOrder"], include: 2 }),
     client.getEntries({ content_type: "leadershipActivity", order: ["fields.sortOrder"], include: 2 }),
+    client.getEntries({ content_type: "networkEventsSection", limit: 1, include: 2 }),
     client.getEntries({ content_type: "contactSection", limit: 1, include: 2 }),
     client.getEntries({ content_type: "navigationItem", order: ["fields.sortOrder"], include: 2 }),
   ]);
@@ -47,6 +49,7 @@ async function fetchAllPageData(): Promise<PageData> {
     experience: experienceRes.items as unknown as PageData["experience"],
     education: educationRes.items as unknown as PageData["education"],
     leadership: leadershipRes.items as unknown as PageData["leadership"],
+    networkEvents: (networkEventsRes.items[0] ?? null) as unknown as PageData["networkEvents"],
     contact: (contactRes.items[0] ?? null) as unknown as PageData["contact"],
     navigation: navigationRes.items as unknown as PageData["navigation"],
   };

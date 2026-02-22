@@ -45,7 +45,7 @@ export function Contact({ data }: ContactProps) {
       <div className="mx-auto max-w-6xl">
         <RevealOnScroll>
           <SectionHeading
-            number="07"
+            number="09"
             title={data.heading}
             className="[&_h2]:text-white !mb-4 md:!mb-6"
           />

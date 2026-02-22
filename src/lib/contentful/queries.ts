@@ -8,6 +8,7 @@ import type {
   ExperienceSkeleton,
   EducationSkeleton,
   LeadershipActivitySkeleton,
+  NetworkEventsSectionSkeleton,
   ContactSectionSkeleton,
   NavigationItemSkeleton,
 } from "@/types/contentful";
@@ -95,6 +96,10 @@ export async function getLeadershipActivities() {
   return getCollection<LeadershipActivitySkeleton>("leadershipActivity");
 }
 
+export async function getNetworkEventsSection() {
+  return getSingleton<NetworkEventsSectionSkeleton>("networkEventsSection");
+}
+
 export async function getContactSection() {
   return getSingleton<ContactSectionSkeleton>("contactSection");
 }
@@ -114,6 +119,7 @@ export async function getAllPageData() {
     experience,
     education,
     leadership,
+    networkEvents,
     contact,
     navigation,
   ] = await Promise.all([
@@ -126,6 +132,7 @@ export async function getAllPageData() {
     getExperience(),
     getEducation(),
     getLeadershipActivities(),
+    getNetworkEventsSection(),
     getContactSection(),
     getNavigationItems(),
   ]);
@@ -140,6 +147,7 @@ export async function getAllPageData() {
     experience,
     education,
     leadership,
+    networkEvents,
     contact,
     navigation,
   };
