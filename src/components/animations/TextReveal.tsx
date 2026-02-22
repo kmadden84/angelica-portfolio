@@ -35,8 +35,8 @@ export function TextReveal({
     const tween = gsap.to(chars, {
       opacity: 1,
       y: 0,
-      duration: 0.4,
-      stagger: 0.02,
+      duration: 0.5,
+      stagger: 0.03,
       ease: "power2.out",
       scrollTrigger: {
         trigger: el,

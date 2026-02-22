@@ -7,6 +7,7 @@ interface SectionWrapperProps {
   children: React.ReactNode;
   className?: string;
   dark?: boolean;
+  alt?: boolean;
 }
 
 export function SectionWrapper({
@@ -14,7 +15,11 @@ export function SectionWrapper({
   children,
   className,
   dark = false,
+  alt = false,
 }: SectionWrapperProps) {
+  // On cream sections, cards are white. On white sections, cards are cream.
+  const cardBg = alt ? "var(--color-bg)" : "var(--color-bg-alt)";
+
   return (
     <section
       id={id}
@@ -22,9 +27,12 @@ export function SectionWrapper({
         "px-6 md:px-12 lg:px-20 py-12 md:py-16",
         dark
           ? "bg-[var(--color-navy)] text-white"
-          : "bg-[var(--color-bg)]",
+          : alt
+            ? "bg-[var(--color-bg-alt)] section-depth"
+            : "bg-[var(--color-bg)] section-depth",
         className
       )}
+      style={{ "--color-card-bg": cardBg } as React.CSSProperties}
     >
       <div className="mx-auto max-w-6xl">{children}</div>
     </section>

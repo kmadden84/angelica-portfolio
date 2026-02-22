@@ -1,11 +1,13 @@
 "use client";
 
-import { Linkedin, Youtube, Instagram, Facebook, Mail, Phone, MapPin } from "lucide-react";
+import { Linkedin, Youtube, Instagram, Facebook, Mail, MapPin } from "lucide-react";
 
 interface FooterProps {
   name?: string;
   email?: string;
   linkedinUrl?: string;
+  navItems?: { label: string; anchor: string }[];
+  resumeUrl?: string;
 }
 
 const socialLinks = [
@@ -31,59 +33,76 @@ const socialLinks = [
   },
 ];
 
-export function Footer({ name }: FooterProps) {
+export function Footer({ name, email, resumeUrl }: FooterProps) {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-[#2D2D3E] text-white/45 px-6 md:px-12 lg:px-20 py-6 border-t border-white/5">
+    <footer className="bg-[var(--color-darker)] px-6 md:px-12 lg:px-20 pt-12 pb-8">
       <div className="mx-auto max-w-6xl">
-        <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-4">
-          {/* Left: contact info */}
-          <div className="flex flex-col items-center md:items-start gap-1.5 text-xs">
-            <p>
-              &copy; {year} {name || "Portfolio"}. All rights reserved.
-            </p>
-            <a
-              href="mailto:guzangelica971@gmail.com"
-              className="flex items-center gap-1.5 hover:text-white/75 transition-colors"
-            >
-              <Mail className="w-3 h-3" />
-              guzangelica971@gmail.com
+        {/* Two-column layout: brand left, social + CTA right */}
+        <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-8 pb-8 border-b border-white/10">
+          {/* Left: brand */}
+          <div className="flex flex-col items-center md:items-start">
+            <a href="#hero" className="text-xl font-bold text-[var(--color-bg)] tracking-tight font-[family-name:var(--font-playfair)]">
+              {name || "Portfolio"}
             </a>
-            <a
-              href="tel:+16476139984"
-              className="flex items-center gap-1.5 hover:text-white/75 transition-colors"
-            >
-              <Phone className="w-3 h-3" />
-              647-613-9984
-            </a>
-            <span className="flex items-center gap-1.5">
-              <MapPin className="w-3 h-3" />
-              118 Montgomery Ave, M4R 1E3, Toronto
-            </span>
+            <div className="flex items-center gap-1.5 mt-2 text-sm text-[var(--color-light-muted)]">
+              <MapPin className="w-3.5 h-3.5" />
+              <span>Based in Toronto</span>
+            </div>
           </div>
 
-          {/* Right: social icons */}
-          <div className="flex items-center gap-5">
-            {socialLinks.map(({ href, label, icon: Icon }) => (
-              <a
-                key={label}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={label}
-                className="text-white/45 hover:text-white/75 transition-colors"
-              >
-                <Icon className="w-4 h-4" />
-              </a>
-            ))}
+          {/* Right: social icons + CTAs */}
+          <div className="flex flex-col items-center md:items-end gap-5">
+            <div className="flex items-center gap-3">
+              {socialLinks.map(({ href, label, icon: Icon }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="w-9 h-9 rounded-full bg-white/8 flex items-center justify-center text-[var(--color-light-muted)] hover:bg-[var(--color-accent)]/20 hover:text-[var(--color-bg)] transition-colors"
+                >
+                  <Icon className="w-4 h-4" />
+                </a>
+              ))}
+            </div>
+            <div className="flex items-center gap-3">
+              {email && (
+                <a
+                  href={`mailto:${email}`}
+                  className="inline-flex items-center gap-2 px-5 py-2 text-sm font-semibold rounded-full border border-[var(--color-light-faint)] text-[var(--color-bg)] hover:bg-white/10 transition-colors"
+                >
+                  <Mail className="w-3.5 h-3.5" />
+                  Get In Touch
+                </a>
+              )}
+              {resumeUrl && (
+                <a
+                  href={resumeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center px-5 py-2 text-sm font-semibold rounded-full bg-[var(--color-accent)] text-white hover:opacity-90 transition-opacity"
+                >
+                  Resume
+                </a>
+              )}
+            </div>
           </div>
         </div>
-        <p className="text-center text-[10px] text-white/20 mt-4 tracking-wide">
-          Crafted with{" "}
-          <span className="inline-block animate-pulse text-red-400/60">&#9829;</span>{" "}
-          and a lot of coffee
-        </p>
+
+        {/* Bottom bar */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-6">
+          <p className="text-xs text-[var(--color-light-faint)]">
+            &copy; {year} {name || "Portfolio"}. All rights reserved.
+          </p>
+          <p className="text-xs text-[var(--color-light-faint)] tracking-wide">
+            Crafted with{" "}
+            <span className="inline-block animate-pulse text-red-400/80">&#9829;</span>{" "}
+            and a lot of coffee
+          </p>
+        </div>
       </div>
     </footer>
   );

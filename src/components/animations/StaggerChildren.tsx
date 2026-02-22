@@ -34,7 +34,7 @@ const itemVariants = {
 export function StaggerChildren({
   children,
   className,
-  staggerDelay = 0.1,
+  staggerDelay = 0.08,
   duration = 0.5,
 }: StaggerChildrenProps) {
   const shouldReduceMotion = useReducedMotion();

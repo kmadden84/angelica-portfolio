@@ -115,13 +115,13 @@ export function ClientPage({ data: initialData }: { data: PageData }) {
 
       <main>
         <Hero data={heroFields} resumeUrl={resumeUrl} />
-        <About data={aboutFields} />
+        <About data={aboutFields} alt />
         <Projects data={projectFields} />
-        <Strengths data={strengthFields} />
+        <Strengths data={strengthFields} alt />
         <Experience data={expFields} />
-        <Education data={eduFields} />
+        <Education data={eduFields} alt />
         <Leadership data={leaderFields} />
-        <NetworkEvents data={networkEventsFields} />
+        <NetworkEvents data={networkEventsFields} alt />
         <Tools data={toolFields} />
         <WaveDivider variant="to-dark" />
         <Contact data={contactFields} />
@@ -131,6 +131,8 @@ export function ClientPage({ data: initialData }: { data: PageData }) {
         name={heroFields?.name}
         email={contactFields?.email}
         linkedinUrl={contactFields?.linkedinUrl}
+        navItems={navItems}
+        resumeUrl={resumeUrl}
       />
     </div>
     </GsapProvider>

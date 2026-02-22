@@ -40,7 +40,7 @@ export function Contact({ data }: ContactProps) {
   return (
     <section
       id="contact"
-      className="px-6 md:px-12 lg:px-20 py-12 md:py-16 bg-[#353547] text-white"
+      className="px-6 md:px-12 lg:px-20 py-12 md:py-16 bg-[var(--color-dark)] text-white"
     >
       <div className="mx-auto max-w-6xl">
         <RevealOnScroll>
@@ -53,7 +53,7 @@ export function Contact({ data }: ContactProps) {
 
         {data.subheading && (
           <RevealOnScroll delay={0.1}>
-            <p className="text-base text-white/65 max-w-2xl mb-6 leading-relaxed">
+            <p className="text-base text-[var(--color-light-secondary)] max-w-2xl mb-6 leading-relaxed">
               {data.subheading}
             </p>
           </RevealOnScroll>
@@ -65,7 +65,7 @@ export function Contact({ data }: ContactProps) {
             <StaggerItem>
               <a
                 href={`mailto:${data.email}`}
-                className="flex items-center gap-3 text-white/80 hover:text-white transition-colors group"
+                className="flex items-center gap-3 text-[var(--color-light-secondary)] hover:text-white transition-colors group"
               >
                 <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-[var(--color-accent)]/25 transition-colors">
                   <Mail size={18} />
@@ -77,7 +77,7 @@ export function Contact({ data }: ContactProps) {
             <StaggerItem>
               <a
                 href="tel:+16476139984"
-                className="flex items-center gap-3 text-white/80 hover:text-white transition-colors group"
+                className="flex items-center gap-3 text-[var(--color-light-secondary)] hover:text-white transition-colors group"
               >
                 <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-[var(--color-accent)]/25 transition-colors">
                   <Phone size={18} />
@@ -88,7 +88,7 @@ export function Contact({ data }: ContactProps) {
 
             {data.location && (
               <StaggerItem>
-                <div className="flex items-center gap-3 text-white/55">
+                <div className="flex items-center gap-3 text-[var(--color-light-tertiary)]">
                   <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
                     <MapPin size={18} />
                   </div>

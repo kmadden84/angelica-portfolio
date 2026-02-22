@@ -10,20 +10,21 @@ import type { SkillCategory } from "@/types/contentful";
 
 interface ToolsProps {
   data: SkillCategory[];
+  alt?: boolean;
 }
 
-export function Tools({ data }: ToolsProps) {
+export function Tools({ data, alt }: ToolsProps) {
   if (!data || data.length === 0) return null;
 
   const sorted = [...data].sort((a, b) => a.sortOrder - b.sortOrder);
 
   return (
-    <SectionWrapper id="tools">
+    <SectionWrapper id="tools" alt={alt}>
       <RevealOnScroll>
         <SectionHeading number="08" title="Tools & Technologies" />
       </RevealOnScroll>
 
-      <StaggerChildren staggerDelay={0.12}>
+      <StaggerChildren>
         <BentoGrid>
           {sorted.map((cat) => (
             <StaggerItem key={cat.categoryName} className="h-full">
@@ -39,7 +40,7 @@ export function Tools({ data }: ToolsProps) {
                     >
                       <SkillIcon
                         name={skill.icon}
-                        className="w-5 h-5 text-[var(--color-text)]/40 group-hover:text-[var(--color-accent)] group-hover:scale-110 transition-all"
+                        className="w-5 h-5 text-[var(--color-text-label)] group-hover:text-[var(--color-accent)] group-hover:scale-110 transition-all"
                       />
                       <span className="text-sm font-medium">{skill.name}</span>
                     </div>

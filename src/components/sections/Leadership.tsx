@@ -11,6 +11,7 @@ import type { Asset } from "contentful";
 
 interface LeadershipProps {
   data: LeadershipActivity[];
+  alt?: boolean;
 }
 
 function getAssetUrl(asset?: Asset): string {
@@ -19,15 +20,15 @@ function getAssetUrl(asset?: Asset): string {
   return file?.url || "";
 }
 
-export function Leadership({ data }: LeadershipProps) {
+export function Leadership({ data, alt }: LeadershipProps) {
   if (!data || data.length === 0) return null;
 
   const sorted = [...data].sort((a, b) => a.sortOrder - b.sortOrder);
 
   return (
-    <SectionWrapper id="leadership">
+    <SectionWrapper id="leadership" alt={alt}>
       <RevealOnScroll>
-        <SectionHeading number="06" title="Leadership & Activities" />
+        <SectionHeading number="06" title="Leadership & Initiatives" />
       </RevealOnScroll>
 
       <div className="space-y-5">
@@ -35,8 +36,8 @@ export function Leadership({ data }: LeadershipProps) {
           const imageUrl = getAssetUrl(activity.image);
 
           return (
-            <RevealOnScroll key={index} delay={index * 0.1}>
-              <div className="rounded-2xl border border-[var(--color-text)]/5 bg-white overflow-hidden transition-all duration-300 hover:shadow-md flex flex-col md:flex-row">
+            <RevealOnScroll key={index} delay={index * 0.08}>
+              <div className="rounded-2xl border border-[var(--color-text)]/10 bg-[var(--color-card-bg)] overflow-hidden transition-all duration-300 hover:shadow-md flex flex-col md:flex-row">
                 {imageUrl && (
                   <div className="md:w-64 lg:w-80 flex-shrink-0">
                     <ParallaxImage
@@ -53,12 +54,12 @@ export function Leadership({ data }: LeadershipProps) {
                   <h3 className="text-lg font-bold mb-1">{activity.title}</h3>
                   <div className="flex flex-wrap items-center gap-x-3 gap-y-0 mb-3">
                     {activity.organization && (
-                      <p className="text-sm text-[var(--color-text)]/50">
+                      <p className="text-sm text-[var(--color-text-muted)]">
                         {activity.organization}
                       </p>
                     )}
                     {activity.organization && activity.dateRange && (
-                      <span className="text-[var(--color-text)]/20">·</span>
+                      <span className="text-[var(--color-text-muted)]">·</span>
                     )}
                     {activity.dateRange && (
                       <p className="text-xs text-[var(--color-accent)] font-medium">
@@ -68,7 +69,7 @@ export function Leadership({ data }: LeadershipProps) {
                   </div>
                   <RichText
                     content={activity.description}
-                    className="text-sm text-[var(--color-text)]/70"
+                    className="text-sm text-[var(--color-text-secondary)]"
                   />
                 </div>
               </div>

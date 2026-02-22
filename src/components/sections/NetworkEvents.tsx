@@ -11,6 +11,7 @@ import type { Asset } from "contentful";
 
 interface NetworkEventsProps {
   data: NetworkEventsSection | null;
+  alt?: boolean;
 }
 
 function getAssetUrl(asset?: Asset): string {
@@ -20,7 +21,7 @@ function getAssetUrl(asset?: Asset): string {
   return file?.url || "";
 }
 
-export function NetworkEvents({ data }: NetworkEventsProps) {
+export function NetworkEvents({ data, alt }: NetworkEventsProps) {
   if (!data) return null;
 
   const images = (data.images ?? [])
@@ -34,14 +35,14 @@ export function NetworkEvents({ data }: NetworkEventsProps) {
   if (images.length === 0) return null;
 
   return (
-    <SectionWrapper id="network-events">
+    <SectionWrapper id="network-events" alt={alt}>
       <RevealOnScroll>
         <SectionHeading number="07" title={data.heading} />
       </RevealOnScroll>
 
       {data.subheading && (
         <RevealOnScroll delay={0.1}>
-          <h3 className="text-lg font-semibold text-[var(--color-text)]/70 mb-6">
+          <h3 className="text-lg font-semibold text-[var(--color-text-secondary)] mb-6">
             {data.subheading}
           </h3>
         </RevealOnScroll>
@@ -49,11 +50,10 @@ export function NetworkEvents({ data }: NetworkEventsProps) {
 
       <StaggerChildren
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
-        staggerDelay={0.12}
       >
         {images.map((img, i) => (
           <StaggerItem key={i}>
-            <div className="rounded-2xl overflow-hidden border border-[var(--color-text)]/5 bg-white transition-all duration-300 hover:shadow-md">
+            <div className="rounded-2xl overflow-hidden border border-[var(--color-text)]/10 bg-[var(--color-card-bg)] transition-all duration-300 hover:shadow-md">
               <ParallaxImage
                 src={contentfulImageUrl(img.url, 600)}
                 alt={img.alt}

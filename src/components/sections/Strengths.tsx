@@ -10,20 +10,21 @@ import type { SkillCategory } from "@/types/contentful";
 
 interface StrengthsProps {
   data: SkillCategory[];
+  alt?: boolean;
 }
 
-export function Strengths({ data }: StrengthsProps) {
+export function Strengths({ data, alt }: StrengthsProps) {
   if (!data || data.length === 0) return null;
 
   const sorted = [...data].sort((a, b) => a.sortOrder - b.sortOrder);
 
   return (
-    <SectionWrapper id="strengths">
+    <SectionWrapper id="strengths" alt={alt}>
       <RevealOnScroll>
-        <SectionHeading number="03" title="Strengths" />
+        <SectionHeading number="03" title="Core Competencies" />
       </RevealOnScroll>
 
-      <StaggerChildren staggerDelay={0.12}>
+      <StaggerChildren>
         <BentoGrid>
           {sorted.map((cat) => (
             <StaggerItem key={cat.categoryName} className="h-full">
@@ -36,7 +37,7 @@ export function Strengths({ data }: StrengthsProps) {
                     <div key={skill.name} className="flex items-center gap-3 group">
                       <SkillIcon
                         name={skill.icon}
-                        className="w-5 h-5 text-[var(--color-text)]/40 group-hover:text-[var(--color-accent)] transition-colors"
+                        className="w-5 h-5 text-[var(--color-text-label)] group-hover:text-[var(--color-accent)] transition-colors"
                       />
                       <span className="text-sm font-medium">{skill.name}</span>
                     </div>

@@ -23,7 +23,7 @@ export function RevealOnScroll({
   className,
   direction = "up",
   delay = 0,
-  duration = 0.6,
+  duration = 0.5,
 }: RevealOnScrollProps) {
   const shouldReduceMotion = useReducedMotion();
 

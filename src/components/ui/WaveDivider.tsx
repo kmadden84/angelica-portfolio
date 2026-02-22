@@ -12,7 +12,7 @@ interface WaveDividerProps {
 export function WaveDivider({ variant = "subtle", className, flip = false }: WaveDividerProps) {
   const fill =
     variant === "to-dark"
-      ? "#353547"
+      ? "var(--color-dark)"
       : variant === "from-dark"
         ? "var(--color-bg)"
         : "var(--color-bg)";
@@ -21,7 +21,7 @@ export function WaveDivider({ variant = "subtle", className, flip = false }: Wav
     variant === "to-dark"
       ? "bg-[var(--color-bg)]"
       : variant === "from-dark"
-        ? "bg-[#353547]"
+        ? "bg-[var(--color-dark)]"
         : "bg-[var(--color-bg)]";
 
   return (
