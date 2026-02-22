@@ -24,7 +24,7 @@ function getAssetUrl(asset?: Asset): string {
 const fadeUp = (delay: number) => ({
   initial: { opacity: 0, y: 30 },
   animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.6, delay, ease: [0.25, 0.46, 0.45, 0.94] },
+  transition: { duration: 0.5, delay, ease: [0.25, 0.46, 0.45, 0.94] },
 });
 
 export function Hero({ data, resumeUrl }: HeroProps) {
@@ -48,7 +48,7 @@ export function Hero({ data, resumeUrl }: HeroProps) {
     <section
       ref={sectionRef}
       id="hero"
-      className="relative min-h-screen flex items-center px-6 md:px-12 lg:px-20 pt-32 lg:pt-20 overflow-hidden"
+      className="relative min-h-screen flex items-center px-6 md:px-12 lg:px-20 pt-32 pb-24 lg:pt-20 lg:pb-8 overflow-hidden"
     >
       {/* Parallax background image */}
       {bgUrl ? (
@@ -67,7 +67,7 @@ export function Hero({ data, resumeUrl }: HeroProps) {
             />
           </motion.div>
           {/* Overlay for text readability */}
-          <div className="absolute inset-0 z-[1] bg-[var(--color-bg)]/60" />
+          <div className="absolute inset-0 z-[1] bg-[var(--color-bg)]/80" />
         </>
       ) : (
         <div className="absolute inset-0 z-0 bg-[var(--color-bg)]" />
@@ -85,20 +85,20 @@ export function Hero({ data, resumeUrl }: HeroProps) {
             </motion.p>
           )}
           <motion.h1
-            className="text-5xl md:text-6xl lg:text-[72px] font-extrabold leading-[1.15] tracking-tight mb-4 gradient-text pb-1"
+            className="text-5xl md:text-6xl lg:text-[72px] font-extrabold leading-[1.15] tracking-tight mb-4 gradient-text pb-1 font-[family-name:var(--font-playfair)]"
             {...anim(0.2)}
           >
             {data.name}
           </motion.h1>
           <motion.p
-            className="text-xl md:text-2xl font-semibold text-[var(--color-text)]/70 mb-6"
+            className="text-xl md:text-2xl font-semibold text-[var(--color-text-secondary)] mb-6"
             {...anim(0.4)}
           >
             {data.title}
           </motion.p>
           {data.subtitle && (
             <motion.p
-              className="text-base md:text-lg text-[var(--color-text)]/60 max-w-lg mb-8 leading-relaxed"
+              className="text-base md:text-lg text-[var(--color-text-tertiary)] max-w-lg mb-8 leading-relaxed"
               {...anim(0.6)}
             >
               {data.subtitle}
@@ -145,7 +145,7 @@ export function Hero({ data, resumeUrl }: HeroProps) {
       {/* Scroll indicator */}
       <motion.a
         href="#about"
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-[var(--color-text)]/70 hover:text-[var(--color-accent)] transition-colors cursor-pointer animate-scroll-bounce z-10"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-[var(--color-text)] hover:text-[var(--color-accent)] transition-colors cursor-pointer animate-scroll-bounce z-10"
         initial={shouldReduceMotion ? {} : { opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, delay: 1.2 }}

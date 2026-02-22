@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils/cn";
+import { TiltCard } from "@/components/ui/TiltCard";
 
 interface BentoGridProps {
   children: React.ReactNode;
@@ -38,9 +39,9 @@ export function BentoCard({
   };
 
   return (
-    <div
+    <TiltCard
       className={cn(
-        "relative rounded-2xl border border-[var(--color-text)]/5 bg-white p-6 transition-all duration-300 hover:shadow-lg hover:shadow-[var(--color-accent)]/10 hover:border-[var(--color-accent)]/30 h-full group/card",
+        "relative rounded-2xl border border-[var(--color-text)]/10 bg-[var(--color-card-bg)] p-6 transition-shadow transition-[border-color] duration-300 hover:shadow-lg hover:shadow-[var(--color-accent)]/10 hover:border-[var(--color-accent)]/30 h-full group/card",
         sizeClasses[size],
         className
       )}
@@ -48,6 +49,6 @@ export function BentoCard({
       {/* Glow effect on hover */}
       <div className="absolute inset-0 rounded-2xl bg-[var(--color-accent)]/5 opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 pointer-events-none" />
       <div className="relative z-10">{children}</div>
-    </div>
+    </TiltCard>
   );
 }

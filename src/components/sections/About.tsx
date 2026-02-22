@@ -13,6 +13,7 @@ import type { Asset } from "contentful";
 
 interface AboutProps {
   data: AboutSection | null;
+  alt?: boolean;
 }
 
 function getAssetUrl(asset?: Asset): string {
@@ -21,14 +22,14 @@ function getAssetUrl(asset?: Asset): string {
   return file?.url || "";
 }
 
-export function About({ data }: AboutProps) {
+export function About({ data, alt }: AboutProps) {
   if (!data) return null;
 
   const photoUrl = getAssetUrl(data.photo);
   const highlights = data.highlights as { label: string; value: string }[] | undefined;
 
   return (
-    <SectionWrapper id="about">
+    <SectionWrapper id="about" alt={alt}>
       <RevealOnScroll>
         <SectionHeading number="01" title={data.heading} />
       </RevealOnScroll>
@@ -37,7 +38,7 @@ export function About({ data }: AboutProps) {
         <RevealOnScroll className="lg:col-span-3">
           <RichText
             content={data.bio}
-            className="text-[var(--color-text)]/80 leading-relaxed"
+            className="text-[var(--color-text-secondary)] leading-relaxed"
           />
         </RevealOnScroll>
 
@@ -54,15 +55,15 @@ export function About({ data }: AboutProps) {
           )}
 
           {highlights && highlights.length > 0 && (
-            <StaggerChildren className="grid grid-cols-3 gap-4" staggerDelay={0.15}>
+            <StaggerChildren className="grid grid-cols-3 gap-2 sm:gap-4" staggerDelay={0.15}>
               {highlights.map((h) => (
                 <StaggerItem key={h.label}>
-                  <div className="text-center p-4 rounded-xl bg-white border border-[var(--color-text)]/5">
+                  <div className="text-center p-2 sm:p-4 rounded-xl bg-[var(--color-card-bg)] border border-[var(--color-text)]/10 min-w-0">
                     <AnimatedCounter
                       value={h.value}
-                      className="text-2xl md:text-3xl font-bold text-[var(--color-accent)] block"
+                      className="text-xl sm:text-2xl md:text-3xl font-bold text-[var(--color-accent)] block truncate"
                     />
-                    <p className="text-xs font-medium text-[var(--color-text)]/50 mt-1 uppercase tracking-wider">
+                    <p className="font-medium text-[var(--color-text-muted)] mt-1 uppercase tracking-wide truncate text-[clamp(0.45rem,1.8vw,0.75rem)]">
                       {h.label}
                     </p>
                   </div>

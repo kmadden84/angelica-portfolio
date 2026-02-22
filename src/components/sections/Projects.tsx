@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { createPortal } from "react-dom";
+import { AnimatePresence } from "framer-motion";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SectionWrapper } from "@/components/layout/SectionWrapper";
 import { RevealOnScroll } from "@/components/animations/RevealOnScroll";
@@ -12,9 +13,10 @@ import type { Project } from "@/types/contentful";
 
 interface ProjectsProps {
   data: Project[];
+  alt?: boolean;
 }
 
-export function Projects({ data }: ProjectsProps) {
+export function Projects({ data, alt }: ProjectsProps) {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   if (!data || data.length === 0) return null;
@@ -26,14 +28,13 @@ export function Projects({ data }: ProjectsProps) {
   });
 
   return (
-    <SectionWrapper id="projects">
+    <SectionWrapper id="projects" alt={alt}>
       <RevealOnScroll>
         <SectionHeading number="02" title="Projects" />
       </RevealOnScroll>
 
       <StaggerChildren
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-        staggerDelay={0.1}
       >
         {sorted.map((project) => (
           <StaggerItem key={project.slug}>
@@ -45,21 +46,18 @@ export function Projects({ data }: ProjectsProps) {
         ))}
       </StaggerChildren>
 
-      <AnimatePresence>
-        {selectedProject && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-          >
-            <ProjectDetail
-              project={selectedProject}
-              onClose={() => setSelectedProject(null)}
-            />
-          </motion.div>
+      {typeof document !== "undefined" &&
+        createPortal(
+          <AnimatePresence>
+            {selectedProject && (
+              <ProjectDetail
+                project={selectedProject}
+                onClose={() => setSelectedProject(null)}
+              />
+            )}
+          </AnimatePresence>,
+          document.body
         )}
-      </AnimatePresence>
     </SectionWrapper>
   );
 }

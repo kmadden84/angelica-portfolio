@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { motion } from "framer-motion";
 import { X, ExternalLink, ArrowRight } from "lucide-react";
 import { Tag } from "@/components/ui/Tag";
 import { RichText } from "@/components/ui/RichText";
@@ -24,17 +25,37 @@ export function ProjectDetail({ project, onClose }: ProjectDetailProps) {
   const gallery = (project.gallery || []) as Asset[];
 
   return (
-    <div
+    <motion.div
       className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8"
+      initial="closed"
+      animate="open"
+      exit="closed"
       onClick={onClose}
     >
-      {/* Semi-opaque backdrop - background content visible */}
-      <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" />
+      {/* Backdrop */}
+      <motion.div
+        className="absolute inset-0 bg-black/40 backdrop-blur-[2px]"
+        variants={{
+          closed: { opacity: 0 },
+          open: { opacity: 1 },
+        }}
+        transition={{ duration: 0.2 }}
+      />
 
       {/* Modal */}
-      <div
+      <motion.div
         className="relative bg-white/95 backdrop-blur-xl rounded-3xl w-full max-w-2xl max-h-[85vh] overflow-hidden shadow-[0_25px_60px_-12px_rgba(0,0,0,0.25)] border border-white/20"
         onClick={(e) => e.stopPropagation()}
+        variants={{
+          closed: { opacity: 0, scale: 0.95, y: 20 },
+          open: { opacity: 1, scale: 1, y: 0 },
+        }}
+        transition={{
+          type: "spring",
+          damping: 25,
+          stiffness: 350,
+          mass: 0.8,
+        }}
       >
         {/* Header bar */}
         <div className="sticky top-0 z-10 flex items-center justify-between px-8 py-5 bg-white/80 backdrop-blur-md border-b border-[var(--color-text)]/5">
@@ -57,7 +78,7 @@ export function ProjectDetail({ project, onClose }: ProjectDetailProps) {
               className="p-2 rounded-full hover:bg-[var(--color-text)]/5 transition-colors cursor-pointer"
               aria-label="Close"
             >
-              <X size={18} className="text-[var(--color-text)]/50" />
+              <X size={18} className="text-[var(--color-text-muted)]" />
             </button>
           </div>
         </div>
@@ -80,11 +101,11 @@ export function ProjectDetail({ project, onClose }: ProjectDetailProps) {
               <div className="rounded-2xl bg-[var(--color-bg)] p-5">
                 <div className="flex items-center gap-2 mb-3">
                   <div className="w-1.5 h-1.5 rounded-full bg-[var(--color-accent)]" />
-                  <h3 className="text-xs font-bold uppercase tracking-widest text-[var(--color-text)]/40">
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-[var(--color-text-label)]">
                     Context
                   </h3>
                 </div>
-                <p className="text-sm leading-relaxed text-[var(--color-text)]/70">
+                <p className="text-sm leading-relaxed text-[var(--color-text-secondary)]">
                   {project.context}
                 </p>
               </div>
@@ -92,11 +113,11 @@ export function ProjectDetail({ project, onClose }: ProjectDetailProps) {
               <div className="rounded-2xl bg-[var(--color-bg)] p-5">
                 <div className="flex items-center gap-2 mb-3">
                   <div className="w-1.5 h-1.5 rounded-full bg-[var(--color-accent)]" />
-                  <h3 className="text-xs font-bold uppercase tracking-widest text-[var(--color-text)]/40">
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-[var(--color-text-label)]">
                     Objective
                   </h3>
                 </div>
-                <p className="text-sm leading-relaxed text-[var(--color-text)]/70">
+                <p className="text-sm leading-relaxed text-[var(--color-text-secondary)]">
                   {project.objective}
                 </p>
               </div>
@@ -106,7 +127,7 @@ export function ProjectDetail({ project, onClose }: ProjectDetailProps) {
             <div className="flex items-center gap-3 rounded-2xl bg-[var(--color-accent)]/5 border border-[var(--color-accent)]/10 px-5 py-4">
               <ArrowRight size={16} className="text-[var(--color-accent)] shrink-0" />
               <div>
-                <span className="text-xs font-bold uppercase tracking-widest text-[var(--color-text)]/40">
+                <span className="text-xs font-bold uppercase tracking-widest text-[var(--color-text-label)]">
                   My Role
                 </span>
                 <p className="text-sm font-semibold mt-0.5">{project.role}</p>
@@ -117,11 +138,11 @@ export function ProjectDetail({ project, onClose }: ProjectDetailProps) {
             <div className="rounded-2xl bg-[var(--color-bg)] p-5">
               <div className="flex items-center gap-2 mb-3">
                 <div className="w-1.5 h-1.5 rounded-full bg-[var(--color-accent)]" />
-                <h3 className="text-xs font-bold uppercase tracking-widest text-[var(--color-text)]/40">
+                <h3 className="text-xs font-bold uppercase tracking-widest text-[var(--color-text-label)]">
                   Actions Taken
                 </h3>
               </div>
-              <div className="text-sm leading-relaxed text-[var(--color-text)]/70 [&_ul]:space-y-2 [&_li]:text-sm">
+              <div className="text-sm leading-relaxed text-[var(--color-text-secondary)] [&_ul]:space-y-2 [&_li]:text-sm">
                 <RichText content={project.actions} />
               </div>
             </div>
@@ -134,7 +155,7 @@ export function ProjectDetail({ project, onClose }: ProjectDetailProps) {
                   Results
                 </h3>
               </div>
-              <div className="text-sm leading-relaxed text-[var(--color-text)]/80 [&_ul]:space-y-2 [&_li]:text-sm font-medium">
+              <div className="text-sm leading-relaxed text-[var(--color-text-secondary)] [&_ul]:space-y-2 [&_li]:text-sm font-medium">
                 <RichText content={project.results} />
               </div>
             </div>
@@ -143,7 +164,7 @@ export function ProjectDetail({ project, onClose }: ProjectDetailProps) {
           {/* Gallery */}
           {gallery.length > 0 && (
             <div className="mt-8">
-              <h3 className="text-xs font-bold uppercase tracking-widest text-[var(--color-text)]/40 mb-4">
+              <h3 className="text-xs font-bold uppercase tracking-widest text-[var(--color-text-label)] mb-4">
                 Gallery
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -166,7 +187,7 @@ export function ProjectDetail({ project, onClose }: ProjectDetailProps) {
             </div>
           )}
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }

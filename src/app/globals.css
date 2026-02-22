@@ -1,15 +1,35 @@
 @import "tailwindcss";
 
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
 :root {
   /* Fallback values — overridden at runtime by Contentful via ClientPage */
-  --color-bg: #EEEEF1;
-  --color-text: #2D3436;
-  --color-accent: #6C5CE7;
-  --color-navy: #1E1E2E;
-  --color-lavender: #DDD8E8;
+  --color-bg: #EDDFD1;
+  --color-bg-alt: #FFFFFF;
+  --color-text: #3B2820;
+  --color-accent: #B27C4F;
+  --color-navy: #2E1A10;
+  --color-lavender: #E8D5C4;
   --color-white: #FFFFFF;
-  --color-primary: #2D3436;
-  --color-accent-dynamic: #6C5CE7;
+  --color-primary: #3B2820;
+  --color-accent-dynamic: #B27C4F;
+
+  /* Accessible solid text on light bg — warm-tinted grays */
+  --color-text-secondary: #5C544C;  /* body text, descriptions — 5.4:1 on cream */
+  --color-text-tertiary: #6E6358;   /* subtitles, company names — 4.6:1 on cream */
+  --color-text-muted: #7D7168;      /* bold/large labels only — AA-large 3.6:1 */
+  --color-text-label: #8A7E73;      /* bold uppercase labels, icons — AA-large 3:1 */
+
+  /* Dark section backgrounds (warm browns) */
+  --color-dark: #4A3228;
+  --color-darker: #3A2518;
+
+  /* Accessible text on dark backgrounds — warm cream tones */
+  --color-light-secondary: #D4C5B7;  /* body text on dark — 7:1 on dark */
+  --color-light-tertiary: #B8A898;   /* subtitles on dark — 5:1 on dark */
+  --color-light-muted: #A89888;      /* muted text on darker — 4.5:1 on darker */
+  --color-light-faint: #8E7E6E;      /* fine print — AA-large 3:1 */
 }
 
 @theme inline {
@@ -19,6 +39,7 @@
   --color-navy: var(--color-navy);
   --color-lavender: var(--color-lavender);
   --font-sans: var(--font-jakarta);
+  --font-display: var(--font-playfair);
 }
 
 html, body {
@@ -38,7 +59,7 @@ html, body {
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  opacity: 0.03;
+  opacity: 0.05;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: 256px 256px;
 }
@@ -101,6 +122,27 @@ html, body {
 
 .animate-scroll-bounce {
   animation: scroll-bounce 2s ease-in-out infinite;
+}
+
+/* Section depth — subtle radial warm glow for dimensionality */
+.section-depth { position: relative; }
+.section-depth::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(178,124,79,0.04) 0%, transparent 70%);
+  z-index: 0;
+}
+.section-depth > * { position: relative; z-index: 1; }
+
+/* Focus-visible for keyboard accessibility */
+a:focus-visible,
+button:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid var(--color-accent-dynamic);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
 /* Reduced motion */
