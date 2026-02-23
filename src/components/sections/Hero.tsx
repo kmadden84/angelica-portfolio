@@ -133,7 +133,7 @@ export function Hero({ data, resumeUrl }: HeroProps) {
                 alt={data.name}
                 width={840}
                 height={840}
-                className="rounded-2xl object-cover w-full h-full relative z-10"
+                className="rounded-2xl object-cover object-top w-full h-full relative z-10"
                 priority
                 unoptimized
               />
