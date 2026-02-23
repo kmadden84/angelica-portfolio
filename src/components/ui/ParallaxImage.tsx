@@ -10,9 +10,10 @@ interface ParallaxImageProps {
   width: number;
   height: number;
   className?: string;
+  imageClassName?: string;
 }
 
-export function ParallaxImage({ src, alt, width, height, className }: ParallaxImageProps) {
+export function ParallaxImage({ src, alt, width, height, className, imageClassName }: ParallaxImageProps) {
   const shouldReduceMotion = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -23,13 +24,13 @@ export function ParallaxImage({ src, alt, width, height, className }: ParallaxIm
 
   return (
     <div ref={ref} className={`overflow-hidden rounded-2xl ${className || ""}`}>
-      <motion.div style={shouldReduceMotion ? {} : { y }}>
+      <motion.div className="h-full" style={shouldReduceMotion ? {} : { y }}>
         <Image
           src={src}
           alt={alt}
           width={width}
           height={height}
-          className="w-full object-cover scale-110"
+          className={`w-full object-cover scale-110 ${imageClassName || ""}`}
           unoptimized
         />
       </motion.div>

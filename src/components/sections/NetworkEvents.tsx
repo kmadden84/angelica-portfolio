@@ -60,6 +60,7 @@ export function NetworkEvents({ data, alt }: NetworkEventsProps) {
                 width={600}
                 height={400}
                 className="w-full h-56 sm:h-64 object-cover"
+                imageClassName={i === images.length - 1 ? "h-full object-[center_75%]" : undefined}
               />
             </div>
           </StaggerItem>

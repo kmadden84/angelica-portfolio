@@ -46,6 +46,7 @@ export function Leadership({ data, alt }: LeadershipProps) {
                       width={600}
                       height={400}
                       className="h-48 md:h-full !rounded-none md:!rounded-l-2xl"
+                      imageClassName="h-full object-[center_75%] md:object-center"
                     />
                   </div>
                 )}
