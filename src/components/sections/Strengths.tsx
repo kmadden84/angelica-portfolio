@@ -17,21 +17,58 @@ interface StrengthsProps {
 }
 
 function SkillCard({ cat }: { cat: SkillCategory }) {
+  const [activeSkill, setActiveSkill] = useState<string | null>(null);
+
   return (
     <BentoCard size={cat.displayStyle || "bento-medium"}>
       <h3 className="text-sm font-semibold uppercase tracking-widest text-[var(--color-accent)] mb-4">
         {cat.categoryName}
       </h3>
       <div className="space-y-3">
-        {cat.skills.map((skill) => (
-          <div key={skill.name} className="flex items-center gap-3 group">
-            <SkillIcon
-              name={skill.icon}
-              className="w-5 h-5 text-[var(--color-text-label)] group-hover:text-[var(--color-accent)] transition-colors"
-            />
-            <span className="text-sm font-medium">{skill.name}</span>
-          </div>
-        ))}
+        {cat.skills.map((skill) => {
+          const isActive = activeSkill === skill.name;
+          const hasDescription = !!skill.description;
+
+          return (
+            <div key={skill.name} className="relative">
+              <div
+                className={`flex items-center gap-3 group ${hasDescription ? "cursor-pointer" : ""}`}
+                onClick={() => {
+                  if (!hasDescription) return;
+                  setActiveSkill(isActive ? null : skill.name);
+                }}
+              >
+                <SkillIcon
+                  name={skill.icon}
+                  className={`w-5 h-5 transition-colors ${
+                    isActive
+                      ? "text-[var(--color-accent)]"
+                      : "text-[var(--color-text-label)] group-hover:text-[var(--color-accent)]"
+                  }`}
+                />
+                <span className={`text-sm font-medium transition-colors ${isActive ? "text-[var(--color-accent)]" : ""}`}>
+                  {skill.name}
+                </span>
+              </div>
+
+              <AnimatePresence>
+                {isActive && skill.description && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.2, ease: "easeOut" }}
+                    className="overflow-hidden"
+                  >
+                    <p className="ml-8 mt-1.5 mb-1 text-xs leading-relaxed text-[var(--color-text-secondary)] border-l-2 border-[var(--color-accent)]/30 pl-3">
+                      {skill.description}
+                    </p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          );
+        })}
       </div>
     </BentoCard>
   );

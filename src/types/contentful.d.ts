@@ -67,7 +67,7 @@ export interface SkillCategorySkeleton extends EntrySkeletonType {
   fields: {
     categoryName: string;
     section: "strengths" | "tools";
-    skills: { name: string; icon?: string; proficiency?: number }[];
+    skills: { name: string; icon?: string; proficiency?: number; description?: string }[];
     sortOrder: number;
     displayStyle?: "bento-large" | "bento-medium" | "bento-small";
   };
