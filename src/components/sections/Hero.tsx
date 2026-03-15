@@ -97,12 +97,14 @@ export function Hero({ data, resumeUrl }: HeroProps) {
             {data.title}
           </motion.p>
           {data.subtitle && (
-            <motion.p
-              className="text-base md:text-lg text-[var(--color-text-tertiary)] max-w-lg mb-8 leading-relaxed"
+            <motion.div
+              className="text-base md:text-lg text-[var(--color-text-tertiary)] max-w-lg mb-8 leading-relaxed space-y-3"
               {...anim(0.6)}
             >
-              {data.subtitle}
-            </motion.p>
+              {data.subtitle.split("\n\n").map((para, i) => (
+                <p key={i}>{para}</p>
+              ))}
+            </motion.div>
           )}
           <motion.div className="flex flex-wrap gap-4" {...anim(0.8)}>
             <Button variant="primary" size="lg" href={data.ctaLink}>
