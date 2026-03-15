@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Mail, MapPin, Linkedin } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils/cn";
 
@@ -14,9 +14,12 @@ interface NavbarProps {
   items: NavItem[];
   siteName?: string;
   resumeUrl?: string;
+  email?: string;
+  linkedinUrl?: string;
+  location?: string;
 }
 
-export function Navbar({ items, siteName, resumeUrl }: NavbarProps) {
+export function Navbar({ items, siteName, resumeUrl, email, linkedinUrl, location }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
@@ -85,6 +88,36 @@ export function Navbar({ items, siteName, resumeUrl }: NavbarProps) {
           : "bg-transparent"
       )}
     >
+      {/* Contact info bar */}
+      {(email || linkedinUrl || location) && (
+        <div
+          className={cn(
+            "hidden sm:block transition-all duration-300 border-b border-[var(--color-text)]/5",
+            isScrolled ? "h-0 overflow-hidden opacity-0" : "opacity-100"
+          )}
+        >
+          <div className="mx-auto max-w-6xl flex items-center justify-end gap-4 px-6 md:px-12 lg:px-20 py-1.5 text-xs text-[var(--color-text-secondary)]">
+            {email && (
+              <a href={`mailto:${email}`} className="flex items-center gap-1.5 hover:text-[var(--color-accent)] transition-colors">
+                <Mail size={12} />
+                <span>{email}</span>
+              </a>
+            )}
+            {linkedinUrl && (
+              <a href={linkedinUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 hover:text-[var(--color-accent)] transition-colors">
+                <Linkedin size={12} />
+                <span>LinkedIn</span>
+              </a>
+            )}
+            {location && (
+              <span className="flex items-center gap-1.5">
+                <MapPin size={12} />
+                <span>{location}</span>
+              </span>
+            )}
+          </div>
+        </div>
+      )}
       <nav className="mx-auto max-w-6xl flex items-center justify-between gap-8 px-6 md:px-12 lg:px-20 h-16 md:h-20">
         <a
           href="#hero"

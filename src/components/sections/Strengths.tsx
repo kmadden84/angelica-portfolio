@@ -21,7 +21,7 @@ export function Strengths({ data, alt }: StrengthsProps) {
   return (
     <SectionWrapper id="strengths" alt={alt}>
       <RevealOnScroll>
-        <SectionHeading number="03" title="Core Competencies" />
+        <SectionHeading number="04" title="Core Competencies" />
       </RevealOnScroll>
 
       <StaggerChildren>

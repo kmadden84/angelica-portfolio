@@ -91,7 +91,7 @@ export function Experience({ data, alt }: ExperienceProps) {
   return (
     <SectionWrapper id="experience" alt={alt}>
       <RevealOnScroll>
-        <SectionHeading number="04" title="Experience" />
+        <SectionHeading number="06" title="Experience" />
       </RevealOnScroll>
 
       <div className="relative">

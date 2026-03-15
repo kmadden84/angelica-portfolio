@@ -265,15 +265,24 @@ function MobileTimeline({ items }: { items: EducationType[] }) {
 
 /* ── Main export ────────────────────────────────────────────────── */
 
+/** Extract the latest year from a dateRange string (e.g. "2022–2025", "2024 – Present") */
+function getEndYear(dateRange: string): number {
+  if (/present|current|ongoing/i.test(dateRange)) return 9999;
+  const years = dateRange.match(/\d{4}/g);
+  if (!years) return 0;
+  return Math.max(...years.map(Number));
+}
+
 export function Education({ data, alt }: EducationProps) {
   if (!data || data.length === 0) return null;
 
-  const sorted = [...data].sort((a, b) => a.sortOrder - b.sortOrder);
+  // Sort chronologically: most recent (highest end year) first
+  const sorted = [...data].sort((a, b) => getEndYear(b.dateRange) - getEndYear(a.dateRange));
 
   return (
     <SectionWrapper id="education" alt={alt}>
       <RevealOnScroll>
-        <SectionHeading number="05" title="Education" />
+        <SectionHeading number="03" title="Education" />
       </RevealOnScroll>
 
       <HorizontalTimeline items={sorted} />

@@ -28,7 +28,7 @@ export function Leadership({ data, alt }: LeadershipProps) {
   return (
     <SectionWrapper id="leadership" alt={alt}>
       <RevealOnScroll>
-        <SectionHeading number="06" title="Leadership & Initiatives" />
+        <SectionHeading number="07" title="Leadership & Initiatives" />
       </RevealOnScroll>
 
       <div className="space-y-5">

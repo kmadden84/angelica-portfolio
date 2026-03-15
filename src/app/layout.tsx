@@ -53,7 +53,7 @@ export async function generateMetadata(): Promise<Metadata> {
         title,
         description,
         type: "website",
-        siteName: "Angelica Guze | Portfolio",
+        siteName: "Angelica Rockford | Portfolio",
         locale: "en_US",
         images: ogImageUrl ? [{ url: ogImageUrl }] : undefined,
       },
@@ -75,7 +75,7 @@ export async function generateMetadata(): Promise<Metadata> {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
-  name: "Angelica Guze",
+  name: "Angelica Rockford",
   jobTitle: "Marketing & Business Strategy Professional",
   description:
     "Marketing and business strategy portfolio showcasing leadership, creative projects, and professional experience.",

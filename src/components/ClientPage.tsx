@@ -111,18 +111,21 @@ export function ClientPage({ data: initialData }: { data: PageData }) {
           (siteSettings?.fields as unknown as { siteTitle?: string })?.siteTitle
         }
         resumeUrl={resumeUrl}
+        email={contactFields?.email}
+        linkedinUrl={contactFields?.linkedinUrl}
+        location={contactFields?.location}
       />
 
       <main>
         <Hero data={heroFields} resumeUrl={resumeUrl} />
         <About data={aboutFields} alt projectCount={projectFields.length} />
         <Projects data={projectFields} />
-        <Strengths data={strengthFields} alt />
-        <Experience data={expFields} />
         <Education data={eduFields} alt />
-        <Leadership data={leaderFields} />
-        <NetworkEvents data={networkEventsFields} alt />
-        <Tools data={toolFields} />
+        <Strengths data={strengthFields} />
+        <Tools data={toolFields} alt />
+        <Experience data={expFields} />
+        <Leadership data={leaderFields} alt />
+        <NetworkEvents data={networkEventsFields} />
         <WaveDivider variant="to-dark" />
         <Contact data={contactFields} />
       </main>

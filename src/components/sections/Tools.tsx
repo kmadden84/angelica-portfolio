@@ -21,7 +21,7 @@ export function Tools({ data, alt }: ToolsProps) {
   return (
     <SectionWrapper id="tools" alt={alt}>
       <RevealOnScroll>
-        <SectionHeading number="08" title="Tools & Technologies" />
+        <SectionHeading number="05" title="Tools & Technologies" />
       </RevealOnScroll>
 
       <StaggerChildren>

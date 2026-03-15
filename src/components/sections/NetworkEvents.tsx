@@ -37,7 +37,7 @@ export function NetworkEvents({ data, alt }: NetworkEventsProps) {
   return (
     <SectionWrapper id="network-events" alt={alt}>
       <RevealOnScroll>
-        <SectionHeading number="07" title={data.heading} />
+        <SectionHeading number="08" title={data.heading} />
       </RevealOnScroll>
 
       {data.subheading && (
